@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart'; 
-import 'firebase_options.dart'; 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'tela_login.dart';
 import 'tela_cadastro.dart';
 import 'tela_recuperar.dart';
+import 'tela_inicial.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -19,14 +20,13 @@ class FluentifyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, 
-      initialRoute: '/', 
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(), 
-        '/signup': (context) =>
-            const SignupScreen(), 
-        '/password_recovery': (context) =>
-            const PasswordRecoveryScreen(), 
+        '/': (context) => const LoginScreen(),
+        '/signup': (context) => const SignupScreen(),
+        '/password_recovery': (context) => const PasswordRecoveryScreen(),
+        '/home': (context) => const HomeScreen(),
       },
     );
   }

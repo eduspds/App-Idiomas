@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: email,
         password: password,
       );
-      
+
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -98,8 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Senha',
                         hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureText
@@ -120,16 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(right: 16),
                     child: MouseRegion(
                       cursor: SystemMouseCursors.click,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/password_recovery');
-                      },
-                      child: const Text(
-                        'Esqueceu a senha?',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/password_recovery');
+                        },
+                        child: const Text(
+                          'Esqueceu a senha?',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),

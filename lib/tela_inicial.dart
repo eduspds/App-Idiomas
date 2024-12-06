@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFFFFBD59), 
+            color: Color(0xFFFFBD59),
           ),
           child: ListView(
             padding: EdgeInsets.zero,
@@ -40,13 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'lib/assets/Fluentifylogo.png', 
+                      'lib/assets/Fluentifylogo.png',
                       width: 100,
                       height: 100,
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      'Bem-vindo, Usuário!',
+                      'Bem-vindo!',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 16,
@@ -63,7 +63,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.help, color: Colors.black),
+                title: const Text(
+                  'Ajuda',
+                  style: TextStyle(color: Colors.black),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.privacy_tip, color: Colors.black),
+                title: const Text(
+                  'Políticas de privacidade',
+                  style: TextStyle(color: Colors.black),
+                ),
+                onTap: () {
                   Navigator.pop(context);
                 },
               ),
@@ -74,7 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-
                   Navigator.pop(context);
                 },
               ),
@@ -85,7 +103,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-
                   Navigator.pop(context);
                 },
               ),
@@ -98,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/Fluentifybg.png'), 
+            image: AssetImage('lib/assets/Fluentifybg.png'),
             fit: BoxFit.cover,
           ),
         ),
@@ -107,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'lib/assets/Fluentifylogo.png', 
+                'lib/assets/Fluentifylogo.png',
                 width: 180,
                 height: 180,
               ),
@@ -130,9 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: TextButton(
-                  onPressed: () {
-                    
-                  },
+                  onPressed: () {},
                   child: const Text(
                     'Começar',
                     style: TextStyle(
