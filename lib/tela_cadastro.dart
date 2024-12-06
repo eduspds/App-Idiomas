@@ -80,7 +80,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  // Campo de Senha
                   Container(
                     width: screenSize.width * 0.8,
                     decoration: BoxDecoration(
@@ -91,7 +90,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText:
-                          _obscurePassword, // Controla a visibilidade da senha
+                          _obscurePassword, 
                       decoration: InputDecoration(
                         hintText: 'Senha',
                         hintStyle: TextStyle(color: Colors.grey),
@@ -114,7 +113,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  // Campo Confirmar Senha
                   Container(
                     width: screenSize.width * 0.8,
                     decoration: BoxDecoration(
@@ -125,7 +123,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: TextField(
                       controller: _confirmPasswordController,
                       obscureText:
-                          _obscureConfirmPassword, // Controla a visibilidade da senha
+                          _obscureConfirmPassword,
                       decoration: InputDecoration(
                         hintText: 'Confirmar Senha',
                         hintStyle: TextStyle(color: Colors.grey),

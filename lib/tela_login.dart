@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     padding: const EdgeInsets.only(right: 16),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/recuperar_senha');
+                        Navigator.pushNamed(context, '/password_recovery');
                       },
                       child: const Text(
                         'Esqueceu a senha?',
