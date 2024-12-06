@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
   const PasswordRecoveryScreen({super.key});
@@ -9,6 +10,44 @@ class PasswordRecoveryScreen extends StatefulWidget {
 
 class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // Função para enviar o e-mail de recuperação
+  Future<void> _recoverPassword() async {
+    final email = _emailController.text.trim();
+
+    if (email.isEmpty) {
+      _showMessage("Por favor, insira um e-mail.");
+      return;
+    }
+
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      _showMessage("E-mail de recuperação enviado! Verifique sua caixa de entrada.");
+    } catch (error) {
+      _showMessage("Erro ao enviar e-mail. Verifique o endereço e tente novamente.");
+      print("Erro: $error");
+    }
+  }
+
+  // Função para exibir mensagens de feedback
+  void _showMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Recuperação de Senha"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +105,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        // firebase
+                        _recoverPassword();
                       },
                       child: const Text(
                         'RECUPERAR SENHA',
@@ -79,27 +118,33 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: RichText(
-                      text: const TextSpan(
-                        text: 'Lembrou da senha? ',
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Lembrou da senha? ',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 14,
                         ),
-                        children: [
-                          TextSpan(
-                            text: 'Entre agora',
+                      ),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            'Entre agora',
                             style: TextStyle(
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
+                              fontSize: 14,
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),

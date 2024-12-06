@@ -1,43 +1,121 @@
 {
   "project_info": {
-    "project_number": "234728912401",
-    "project_id": "appdeviagens-53e73",
-    "storage_bucket": "appdeviagens-53e73.firebasestorage.app"
+    "project_number": "232150582203",
+    "project_id": "iwin-58f4b",
+    "storage_bucket": "iwin-58f4b.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:234728912401:android:859a1b9dd4c609e0f863b0",
+        "mobilesdk_app_id": "1:232150582203:android:a6758612c9d416125afa9e",
         "android_client_info": {
-          "package_name": "com.senai.fluentify"
+          "package_name": "com.example.appidiomas"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "234728912401-4fluitgb008lvqragfhmg99c1bchng8k.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDICV_O_5_XyXRzHHmH24t3h71_jZalncw"
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "234728912401-4fluitgb008lvqragfhmg99c1bchng8k.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "234728912401-jri387jletvtu6avlaq39t4s3p44ouud.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.projetofinal"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232150582203:android:665786b66ee4f3b75afa9e",
+        "android_client_info": {
+          "package_name": "com.example.appidomas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232150582203:android:49ffaaac100110f05afa9e",
+        "android_client_info": {
+          "package_name": "com.example.firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232150582203:android:061fb3bffb8cbf8d5afa9e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232150582203:android:579c0c757c2d9d8d5afa9e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232150582203:android:36144ecd05c062bc5afa9e",
+        "android_client_info": {
+          "package_name": "com.example.flutter_idiomas_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -41,51 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDKx4rvIgiI3deHmK57eTS0rw_Ismr0tM0',
-    appId: '1:234728912401:web:66335985e91bb598f863b0',
-    messagingSenderId: '234728912401',
-    projectId: 'appdeviagens-53e73',
-    authDomain: 'appdeviagens-53e73.firebaseapp.com',
-    storageBucket: 'appdeviagens-53e73.firebasestorage.app',
-    measurementId: 'G-DH5D4TZT2V',
+    apiKey: 'AIzaSyAh8BMOYPuLj9O8A5v9pCUHEEUezIX2X90',
+    appId: '1:232150582203:web:1694ba26b4ad7d9c5afa9e',
+    messagingSenderId: '232150582203',
+    projectId: 'iwin-58f4b',
+    authDomain: 'iwin-58f4b.firebaseapp.com',
+    storageBucket: 'iwin-58f4b.firebasestorage.app',
+    measurementId: 'G-9W36KQFW2D',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDICV_O_5_XyXRzHHmH24t3h71_jZalncw',
-    appId: '1:234728912401:android:859a1b9dd4c609e0f863b0',
-    messagingSenderId: '234728912401',
-    projectId: 'appdeviagens-53e73',
-    storageBucket: 'appdeviagens-53e73.firebasestorage.app',
+    apiKey: 'AIzaSyCqAReSvFIZ86eqqnWOKvypxtfm0KXch1E',
+    appId: '1:232150582203:android:36144ecd05c062bc5afa9e',
+    messagingSenderId: '232150582203',
+    projectId: 'iwin-58f4b',
+    storageBucket: 'iwin-58f4b.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyB-5wMFNVjc8LSM_C-gkxBIoAZSa3TTdS8',
-    appId: '1:234728912401:ios:a998a8c325cc80a1f863b0',
-    messagingSenderId: '234728912401',
-    projectId: 'appdeviagens-53e73',
-    storageBucket: 'appdeviagens-53e73.firebasestorage.app',
-    iosClientId: '234728912401-klff2ja8bvtpuo0ctlf0rkn6h39l78gq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyB2-t2H7Zbo26y9zCFF6lV183wBkhdoJj0',
+    appId: '1:232150582203:ios:3d016c9052e79c335afa9e',
+    messagingSenderId: '232150582203',
+    projectId: 'iwin-58f4b',
+    storageBucket: 'iwin-58f4b.firebasestorage.app',
     iosBundleId: 'com.example.flutterIdiomas1',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyB-5wMFNVjc8LSM_C-gkxBIoAZSa3TTdS8',
-    appId: '1:234728912401:ios:a998a8c325cc80a1f863b0',
-    messagingSenderId: '234728912401',
-    projectId: 'appdeviagens-53e73',
-    storageBucket: 'appdeviagens-53e73.firebasestorage.app',
-    iosClientId: '234728912401-klff2ja8bvtpuo0ctlf0rkn6h39l78gq.apps.googleusercontent.com',
+    apiKey: 'AIzaSyB2-t2H7Zbo26y9zCFF6lV183wBkhdoJj0',
+    appId: '1:232150582203:ios:3d016c9052e79c335afa9e',
+    messagingSenderId: '232150582203',
+    projectId: 'iwin-58f4b',
+    storageBucket: 'iwin-58f4b.firebasestorage.app',
     iosBundleId: 'com.example.flutterIdiomas1',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDKx4rvIgiI3deHmK57eTS0rw_Ismr0tM0',
-    appId: '1:234728912401:web:0522293b0a15e689f863b0',
-    messagingSenderId: '234728912401',
-    projectId: 'appdeviagens-53e73',
-    authDomain: 'appdeviagens-53e73.firebaseapp.com',
-    storageBucket: 'appdeviagens-53e73.firebasestorage.app',
-    measurementId: 'G-F184PKEK4Q',
+    apiKey: 'AIzaSyAh8BMOYPuLj9O8A5v9pCUHEEUezIX2X90',
+    appId: '1:232150582203:web:7a99e59e74b186e75afa9e',
+    messagingSenderId: '232150582203',
+    projectId: 'iwin-58f4b',
+    authDomain: 'iwin-58f4b.firebaseapp.com',
+    storageBucket: 'iwin-58f4b.firebasestorage.app',
+    measurementId: 'G-JK48D6NXQM',
   );
-
 }

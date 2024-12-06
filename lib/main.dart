@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'firebase_options.dart';
-import 'package:firebase_core/firebase_core.dart'; // Importa o Firebase
-import 'tela_login.dart'; // Tela de login
-import 'tela_cadastro.dart'; // Tela de cadastro
-import 'tela_recuperar.dart'; // Tela de recuperação de senha
+import 'package:firebase_core/firebase_core.dart'; 
+import 'firebase_options.dart'; 
+import 'tela_login.dart';
+import 'tela_cadastro.dart';
+import 'tela_recuperar.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Garantir que os widgets estão prontos
-  await Firebase.initializeApp();
-  FirebaseOptions options = DefaultFirebaseOptions.currentPlatform;
-  // Inicializa o Firebase
-
-  runApp(const FluentifyApp()); // Inicia o aplicativo
+  WidgetsFlutterBinding.ensureInitialized(); 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const FluentifyApp());
 }
 
 class FluentifyApp extends StatelessWidget {
