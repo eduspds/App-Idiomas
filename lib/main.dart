@@ -19,14 +19,14 @@ class FluentifyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // Desativa o banner de debug
-      initialRoute: '/', // Define a rota inicial
+      debugShowCheckedModeBanner: false, 
+      initialRoute: '/', 
       routes: {
-        '/': (context) => const LoginScreen(), // Rota da tela de login
+        '/': (context) => const LoginScreen(), 
         '/signup': (context) =>
-            const SignupScreen(), // Rota da tela de cadastro
+            const SignupScreen(), 
         '/password_recovery': (context) =>
-            const PasswordRecoveryScreen(), // Rota da tela de recuperação de senha
+            const PasswordRecoveryScreen(), 
       },
     );
   }

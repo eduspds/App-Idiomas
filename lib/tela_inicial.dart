@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFFFFBD59), // Cor do menu
+            color: Color(0xFFFFBD59), 
           ),
           child: ListView(
             padding: EdgeInsets.zero,
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'lib/assets/Fluentifylogo.png', // Substitua pelo caminho correto do logotipo
+                      'lib/assets/Fluentifylogo.png', 
                       width: 100,
                       height: 100,
                     ),
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  // Navegar para a tela de perfil
+
                   Navigator.pop(context);
                 },
               ),
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  // Navegar para a tela de configurações
+
                   Navigator.pop(context);
                 },
               ),
@@ -85,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  // Lógica para sair
+
                   Navigator.pop(context);
                 },
               ),
@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/Fluentifybg.png'), // Fundo personalizado
+            image: AssetImage('lib/assets/Fluentifybg.png'), 
             fit: BoxFit.cover,
           ),
         ),
@@ -107,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'lib/assets/Fluentifylogo.png', // Logotipo
+                'lib/assets/Fluentifylogo.png', 
                 width: 180,
                 height: 180,
               ),
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    // Navegar para outra funcionalidade
+                    
                   },
                   child: const Text(
                     'Começar',

@@ -12,7 +12,6 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   final TextEditingController _emailController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Função para enviar o e-mail de recuperação
   Future<void> _recoverPassword() async {
     final email = _emailController.text.trim();
 
@@ -30,7 +29,6 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
     }
   }
 
-  // Função para exibir mensagens de feedback
   void _showMessage(String message) {
     showDialog(
       context: context,
