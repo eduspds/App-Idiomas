@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/assets/Fluentifybg.png'),
             fit: BoxFit.cover,
@@ -90,6 +90,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.only(right: 16),
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
                     child: GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(context, '/password_recovery');
@@ -100,6 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
