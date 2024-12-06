@@ -114,7 +114,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        // Aqui será configurado o Firebase posteriormente
+                        // espaço para a bomba do firebase
                       },
                       child: const Text(
                         'CADASTRAR',
