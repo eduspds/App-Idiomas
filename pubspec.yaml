@@ -59,6 +59,10 @@ flutter:
   assets: 
   - lib/assets/Fluentifylogo.png
   - lib/assets/Fluentifybg.png
+  - lib/assets/vetor.png 
+  - lib/assets/resc.png
+  - lib/assets/google_icon.png
+  - lib/assets/facebook_icon.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

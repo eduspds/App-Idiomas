@@ -27,20 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xFFFFBD59),
+            color: const Color(0xFFE0E0E0),
           ),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: Color(0xFFFFBD59), // Cor alterada
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'lib/assets/Fluentifylogo.png',
+                      'lib/assets/vetor.png',
                       width: 100,
                       height: 100,
                     ),

@@ -22,9 +22,11 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
 
     try {
       await _auth.sendPasswordResetEmail(email: email);
-      _showMessage("E-mail de recuperação enviado! Verifique sua caixa de entrada.");
+      _showMessage(
+          "E-mail de recuperação enviado! Verifique sua caixa de entrada.");
     } catch (error) {
-      _showMessage("Erro ao enviar e-mail. Verifique o endereço e tente novamente.");
+      _showMessage(
+          "Erro ao enviar e-mail. Verifique o endereço e tente novamente.");
       print("Erro: $error");
     }
   }
@@ -69,9 +71,27 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'lib/assets/Fluentifylogo.png',
-                    width: 180,
-                    height: 180,
+                    'lib/assets/resc.png',
+                    width: 350,
+                    height: 350,
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Esqueceu sua Senha?',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
+                  const Text(
+                    'Informe o E-mail para o qual deseja redefinir sua senha',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(height: 30),
                   Container(
