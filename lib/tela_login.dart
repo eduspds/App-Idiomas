@@ -1,15 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+
+  Future<void> _loginUser() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, preencha todos os campos!')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao fazer login: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/assets/Fluentifybg.png'),
             fit: BoxFit.cover,
@@ -45,9 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Nome de Usuário',
+                    child: TextField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        hintText: 'Email',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
@@ -68,10 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       obscureText: _obscureText,
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureText
@@ -114,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: _loginUser,
                       child: const Text(
                         'ENTRAR',
                         style: TextStyle(

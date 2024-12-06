@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PasswordRecoveryScreen extends StatefulWidget {
-  const PasswordRecoveryScreen({Key? key}) : super(key: key);
+  const PasswordRecoveryScreen({super.key});
 
   @override
   _PasswordRecoveryScreenState createState() => _PasswordRecoveryScreenState();
@@ -18,7 +18,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/assets/Fluentifybg.png'),
             fit: BoxFit.cover,
@@ -46,7 +46,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
                     ),
                     child: TextField(
                       controller: _emailController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Digite seu e-mail',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,

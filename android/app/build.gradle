@@ -1,8 +1,9 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // O plugin Flutter Gradle deve ser aplicado após os plugins do Android e Kotlin
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services" // Certifique-se de manter esta linha aqui
 }
 
 android {
@@ -20,11 +21,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.flutter_idiomas_1"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        applicationId = "com.example.flutter_idiomas_1"  // Certifique-se de usar um Application ID único
+        minSdk = 21 // Firebase requer no mínimo 21
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -32,9 +30,7 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.debug // Configuração de assinatura (use sua própria configuração para produção)
         }
     }
 }
@@ -42,3 +38,15 @@ android {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    // Dependência do Firebase BOM para gerenciar versões automaticamente
+    implementation platform('com.google.firebase:firebase-bom:32.1.1') // Use a versão mais recente
+    implementation 'com.google.firebase:firebase-auth' // Firebase Authentication
+    implementation 'com.google.firebase:firebase-firestore' // Firestore (opcional)
+    // Adicione mais dependências, conforme necessário
+    // implementation 'com.google.firebase:firebase-analytics'
+    // implementation 'com.google.firebase:firebase-messaging'
+}
+
+apply plugin: 'com.google.gms.google-services' // Certifique-se de que este está no final do arquivo

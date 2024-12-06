@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  const SignupScreen({super.key});
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  // Controlador para os campos de senha
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -16,6 +17,43 @@ class _SignupScreenState extends State<SignupScreen> {
   // Variáveis para controlar se as senhas estão ocultas ou visíveis
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+
+  Future<void> _registerUser() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, preencha todos os campos!')),
+      );
+      return;
+    }
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('As senhas não coincidem!')),
+      );
+      return;
+    }
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Usuário registrado com sucesso!')),
+      );
+
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao registrar: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +63,7 @@ class _SignupScreenState extends State<SignupScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/assets/Fluentifybg.png'),
             fit: BoxFit.cover,
@@ -51,26 +89,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Nome de Usuário',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    width: screenSize.width * 0.8,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child: TextField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
                         hintText: 'Email',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
@@ -89,14 +110,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: TextField(
                       controller: _passwordController,
-                      obscureText:
-                          _obscurePassword, 
+                      obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         hintText: 'Senha',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -122,14 +142,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     child: TextField(
                       controller: _confirmPasswordController,
-                      obscureText:
-                          _obscureConfirmPassword,
+                      obscureText: _obscureConfirmPassword,
                       decoration: InputDecoration(
                         hintText: 'Confirmar Senha',
-                        hintStyle: TextStyle(color: Colors.grey),
+                        hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureConfirmPassword
@@ -138,8 +157,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword =
-                                  !_obscureConfirmPassword;
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
                             });
                           },
                         ),
@@ -156,9 +174,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        // espaço para a bomba do firebase
-                      },
+                      onPressed: _registerUser,
                       child: const Text(
                         'CADASTRAR',
                         style: TextStyle(
