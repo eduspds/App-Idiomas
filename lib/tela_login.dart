@@ -88,6 +88,52 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  const Text(
+                    'Ou continuar com',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                          width: screenSize.width * 0.35,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Google',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ))),
+                      const SizedBox(width: 20),
+                      Container(
+                          width: screenSize.width * 0.35,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Facebook',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ))
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/signup');
