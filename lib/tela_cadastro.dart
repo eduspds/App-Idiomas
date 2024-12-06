@@ -14,7 +14,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-  // Variáveis para controlar se as senhas estão ocultas ou visíveis
+
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
