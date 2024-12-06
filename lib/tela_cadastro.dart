@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
+
+  @override
+  _SignupScreenState createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  // Controlador para os campos de senha
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+
+  // Variáveis para controlar se as senhas estão ocultas ou visíveis
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +80,7 @@ class SignupScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
+                  // Campo de Senha
                   Container(
                     width: screenSize.width * 0.8,
                     decoration: BoxDecoration(
@@ -73,18 +88,33 @@ class SignupScreen extends StatelessWidget {
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const TextField(
-                      obscureText: true,
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText:
+                          _obscurePassword, // Controla a visibilidade da senha
                       decoration: InputDecoration(
                         hintText: 'Senha',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(height: 15),
+                  // Campo Confirmar Senha
                   Container(
                     width: screenSize.width * 0.8,
                     decoration: BoxDecoration(
@@ -92,14 +122,29 @@ class SignupScreen extends StatelessWidget {
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const TextField(
-                      obscureText: true,
+                    child: TextField(
+                      controller: _confirmPasswordController,
+                      obscureText:
+                          _obscureConfirmPassword, // Controla a visibilidade da senha
                       decoration: InputDecoration(
                         hintText: 'Confirmar Senha',
                         hintStyle: TextStyle(color: Colors.grey),
                         border: InputBorder.none,
                         contentPadding:
                             EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
+                            });
+                          },
+                        ),
                       ),
                     ),
                   ),
