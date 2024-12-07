@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'tela_login.dart';
-import 'tela_cadastro.dart';
-import 'tela_recuperar.dart';
-import 'tela_inicial.dart';
+import 'pages/tela_login.dart';
+import 'pages/tela_cadastro.dart';
+import 'pages/tela_recuperar.dart';
+import 'pages/tela_inicial.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class FluentifyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignupScreen(),
         '/password_recovery': (context) => const PasswordRecoveryScreen(),
         '/home': (context) => const HomeScreen(),

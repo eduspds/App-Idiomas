@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'tela_dashboard.dart'; // Importação da tela de Dashboard
+import 'package:firebase_auth/firebase_auth.dart';
+import 'tela_dashboard.dart'; // Tela de Dashboard
+import '../services/auth_services.dart'; // Serviço de autenticação
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,8 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // GlobalKey para controlar o Scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final AuthService _authService = AuthService(); // Instância do AuthService
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       body: Row(
         children: [
-          // Barra lateral com o tom vermelho alterado para #c44a45
           Container(
-            color: const Color(0xFFC44A45), // Novo tom de vermelho
+            color: const Color(0xFFC44A45),
             width: 40,
             height: double.infinity,
             child: Column(
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // Conteúdo principal
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
@@ -109,8 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(
-                  color:
-                      Color(0xFFC44A45), // Cor sincronizada com a barra lateral
+                  color: Color(0xFFC44A45),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -179,7 +178,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Confirmar Logout"),
+                        content: const Text("Você tem certeza que deseja sair?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("Cancelar"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Sair"),
+                            onPressed: () async {
+                              Navigator.of(context).pop(); // Fecha o diálogo
+                              try {
+                                await _authService.logoutUser(); // Chama o método de logout
+                                Navigator.of(context).pushReplacementNamed('/login'); // Redireciona para a tela de login
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erro ao fazer logout: $e'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
             ],
