@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'tela_dashboard.dart'; // Importação da tela de Dashboard
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _DashboardScreenState createState() => _DashboardScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  // GlobalKey para controlar o Scaffold
+class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -20,9 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       body: Row(
         children: [
-          // Barra lateral com o tom vermelho alterado para #c44a45
+          // Barra lateral com o mesmo layout da tela inicial
           Container(
-            color: const Color(0xFFC44A45), // Novo tom de vermelho
+            color: const Color(0xFFC44A45),
             width: 40,
             height: double.infinity,
             child: Column(
@@ -37,63 +35,93 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          // Conteúdo principal
+          // Conteúdo principal da Dashboard
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('lib/assets/iniciobg.png'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'lib/assets/Fluentifylogo.png',
-                      width: 180,
-                      height: 180,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Bem-vindo ao Fluentify!',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Container(
-                      width: screenSize.width * 0.8,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DashboardScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Começar',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+              color: const Color(0xFFF4F4F4),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Primeiro bloco grande
+                  Expanded(
+                    flex: 2,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Ação ao clicar no bloco
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 16.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  // Dois blocos menores lado a lado
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              // Ação ao clicar no bloco
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              // Ação ao clicar no bloco
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16.0),
+
+                  // Último bloco grande
+                  Expanded(
+                    flex: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Ação ao clicar no bloco
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 16.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -109,8 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(
-                  color:
-                      Color(0xFFC44A45), // Cor sincronizada com a barra lateral
+                  color: Color(0xFFC44A45),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -14,7 +14,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
-
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
@@ -115,8 +114,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: 'Senha',
                         hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword
@@ -147,8 +146,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         hintText: 'Confirmar Senha',
                         hintStyle: const TextStyle(color: Colors.grey),
                         border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 14),
                         suffixIcon: IconButton(
                           icon: Icon(
                             _obscureConfirmPassword
@@ -157,7 +156,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                              _obscureConfirmPassword =
+                                  !_obscureConfirmPassword;
                             });
                           },
                         ),
