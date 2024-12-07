@@ -149,7 +149,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: TextButton(
                   onPressed: () {},
                   child: const Text(
-                    'Começar',
+                    'Escolha o idioma',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Container(
+                width: screenSize.width * 0.8,
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black, width: 2),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Trilha de aprendizado',
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
