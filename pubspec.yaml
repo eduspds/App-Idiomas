@@ -39,6 +39,11 @@ dependencies:
   firebase_auth: ^5.3.4
   firebase_core: ^3.8.1
   cloud_firestore: ^5.5.1
+  bloc: ^8.1.4  #usem o comando "dart pub add bloc" para obter a dependencia
+  flutter_bloc: ^8.1.2 #usem o comando "dart pub add flutter_bloc" para obter a dependencia
+  google_sign_in: ^6.1.0 #usem o comando "dart pub add google_sign_in" para obter a dependencia
+  provider: ^6.1.2
+  firebase_auth_web: ^5.13.5
 
 dev_dependencies:
   flutter_test:
