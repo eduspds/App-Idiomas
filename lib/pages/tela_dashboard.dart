@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/auth_services.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -9,6 +10,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +208,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text("Confirmar Logout"),
+                        content: const Text("Você tem certeza que deseja sair?"),
+                        actions: [
+                          TextButton(
+                            child: const Text("Cancelar"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          TextButton(
+                            child: const Text("Sair"),
+                            onPressed: () async {
+                              Navigator.of(context).pop(); // Fecha o diálogo
+                              try {
+                                await _authService.logoutUser(); // Chama o método de logout
+                                Navigator.of(context).pushReplacementNamed('/login'); // Redireciona para a tela de login
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Erro ao fazer logout: $e'),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
             ],

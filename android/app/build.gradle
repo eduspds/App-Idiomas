@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.flutter_idiomas_1"  // Certifique-se de usar um Application ID único
-        minSdk = 23 // Firebase requer no mínimo 21
+        minSdk = 23 // Firebase requer no mínimo 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
