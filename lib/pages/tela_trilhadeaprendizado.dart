@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'tela_comecedo0.dart';
+import 'tela_testenivelamento.dart';
 
 class LearningPath extends StatefulWidget {
   @override
@@ -22,11 +24,14 @@ class _LearningPathState extends State<LearningPath> {
                 setState(() {
                   selectedLanguage = 'Português'; // Salva a escolha
                 });
-                Navigator.pop(context); // Fecha o modal
+                Navigator.pop(context);
+                _showLanguageAvailableMessage();
               },
-              child: const Text('Português'),
+              child: const Text('Português',
+                  style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize:
+                    const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -41,9 +46,11 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context); // Fecha o modal
                 _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
               },
-              child: const Text('Inglês'),
+              child:
+                  const Text('Inglês', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize:
+                    const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -58,9 +65,11 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context); // Fecha o modal
                 _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
               },
-              child: const Text('Espanhol'),
+              child:
+                  const Text('Espanhol', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize:
+                    const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -85,6 +94,16 @@ class _LearningPathState extends State<LearningPath> {
     Future.delayed(Duration(seconds: 2), () {
       _showLanguageDialog();
     });
+  }
+
+  // Função para mostrar a mensagem de idioma disponível
+  void _showLanguageAvailableMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Idioma disponível! Trilha iniciada!'),
+        backgroundColor: Colors.black,
+      ),
+    );
   }
 
   @override
@@ -155,7 +174,7 @@ class _LearningPathState extends State<LearningPath> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -179,7 +198,7 @@ class _LearningPathState extends State<LearningPath> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          QuestaoScreen(), // Tela de questões
+                                          QuestionsScreen(), // Tela de questões
                                     ),
                                   );
                                 }
@@ -212,40 +231,16 @@ class _LearningPathState extends State<LearningPath> {
                       onPressed:
                           _isLanguageSelected() // Só permite ação se o idioma for escolhido
                               ? () {
-                                  // Ação para "Estudo Personalizado"
+                                  // Navegar para a tela de questões ou outro conteúdo
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TelaTesteNivelamento(), // Tela de questões
+                                    ),
+                                  );
                                 }
-                              : null,
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                      child: Text(
-                        'Estudo Personalizado',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Container(
-                    width: screenSize.width * 0.8,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black, width: 2),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: TextButton(
-                      onPressed:
-                          _isLanguageSelected() // Só permite ação se o idioma for escolhido
-                              ? () {
-                                  // Ação para "Teste de Nivelamento"
-                                }
-                              : null,
+                              : null, // Desa
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(

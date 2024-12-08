@@ -3,7 +3,8 @@ import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_comofunciona.dart';
-import 'trilha_aprendizado.dart';
+import 'tela_trilhadeaprendizado.dart';
+import 'tela_comecedo0.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           );
                         },
                         child: const Text(
-                          'Como funciona',
+                          'Como funciona?',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
