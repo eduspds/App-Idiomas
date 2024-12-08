@@ -5,6 +5,7 @@ import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_comofunciona.dart';
 import 'tela_trilhadeaprendizado.dart';
 import 'tela_comecedo0.dart';
+import 'tela_politicadeprivacidade.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -213,11 +214,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ListTile(
                 leading: const Icon(Icons.privacy_tip, color: Colors.black),
                 title: const Text(
-                  'Políticas de privacidade',
+                  'Políticas de Privacidade',
                   style: TextStyle(color: Colors.black),
                 ),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TelaPoliticadeprivacidade()),
+                  );
                 },
               ),
               ListTile(
