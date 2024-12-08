@@ -20,7 +20,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       key: _scaffoldKey,
       body: Row(
         children: [
-          // Barra lateral com o mesmo layout da tela inicial
           Container(
             color: const Color(0xFFC44A45),
             width: 40,
@@ -45,7 +44,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Primeiro bloco grande
                   Expanded(
                     flex: 2,
                     child: GestureDetector(
@@ -62,8 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
                   ),
-
-                  // Dois blocos menores lado a lado
                   Expanded(
                     flex: 1,
                     child: Row(
@@ -71,7 +67,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              // Ação ao clicar no bloco
                             },
                             child: Container(
                               margin: const EdgeInsets.only(right: 8.0),
@@ -87,7 +82,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              // Ação ao clicar no bloco
                             },
                             child: Container(
                               margin: const EdgeInsets.only(left: 8.0),
@@ -103,15 +97,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 16.0),
-
-                  // Último bloco grande
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
                       onTap: () {
-                        // Ação ao clicar no bloco
                       },
                       child: Container(
                         margin: const EdgeInsets.only(top: 16.0),
@@ -224,7 +214,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           TextButton(
                             child: const Text("Sair"),
                             onPressed: () async {
-                              Navigator.of(context).pop(); // Fecha o diálogo
+                              Navigator.of(context).pop(); 
                               try {
                                 await _authService.logoutUser(); // Chama o método de logout
                                 Navigator.of(context).pushReplacementNamed('/login'); // Redireciona para a tela de login

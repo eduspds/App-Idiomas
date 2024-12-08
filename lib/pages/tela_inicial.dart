@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
+import 'tela_comofunciona.dart';
+import 'trilha_aprendizado.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -77,12 +80,68 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
+                              builder: (context) => TelaComoFunciona(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Como funciona',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: screenSize.width * 0.8,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black, width: 2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
                               builder: (context) => const DashboardScreen(),
                             ),
                           );
                         },
                         child: const Text(
-                          'Começar',
+                          'Meu progresso',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Container(
+                      width: screenSize.width * 0.8,
+                      height: 45,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.black, width: 2),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LearningPath(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'Trilha de Aprendizado',
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -182,7 +241,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text("Confirmar Logout"),
-                        content: const Text("Você tem certeza que deseja sair?"),
+                        content:
+                            const Text("Você tem certeza que deseja sair?"),
                         actions: [
                           TextButton(
                             child: const Text("Cancelar"),
@@ -195,8 +255,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPressed: () async {
                               Navigator.of(context).pop(); // Fecha o diálogo
                               try {
-                                await _authService.logoutUser(); // Chama o método de logout
-                                Navigator.of(context).pushReplacementNamed('/login'); // Redireciona para a tela de login
+                                await _authService
+                                    .logoutUser(); // Chama o método de logout
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/login'); // Redireciona para a tela de login
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
