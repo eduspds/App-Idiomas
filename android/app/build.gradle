@@ -46,6 +46,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.1.1') // Use a versão mais recente
     implementation 'com.google.firebase:firebase-auth' // Firebase Authentication
     implementation 'com.google.firebase:firebase-firestore' // Firestore (opcional)
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
     // Adicione mais dependências, conforme necessário
     // implementation 'com.google.firebase:firebase-analytics'
     // implementation 'com.google.firebase:firebase-messaging'

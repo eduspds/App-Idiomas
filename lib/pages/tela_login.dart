@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../Cubit/google_auth_cubit.dart';
 import '../services/auth_services.dart';
+import '../services/google_auth_state.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -15,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
   bool _obscureText = true;
 
-    Future<void> _loginUser() async {
+  Future<void> _loginUser() async {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
@@ -27,9 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     try {
-      // auth_services
+      //auth service
       await _authService.loginUser(email, password);
-
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -37,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -169,33 +171,49 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MouseRegion(
-                        cursor: SystemMouseCursors.click,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: 55,
-                            height: 55,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(color: Colors.black, width: 2),
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                                'lib/assets/google_icon.png',
-                                width: 35,
-                                height: 35,
+                      BlocConsumer<GoogleAuthCubit, GoogleAuthState>(
+                        listener: (context, state) {
+                          if (state is GoogleAuthSuccessState) {
+                            Navigator.pushReplacementNamed(context, '/home');
+                          } else if (state is GoogleAuthFaliedState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(state.error)),
+                            );
+                          }
+                        },
+                        builder: (context, state) {
+                          return GestureDetector(
+                            onTap: state is GoogleAuthLoadingState
+                                ? null
+                                : () => context.read<GoogleAuthCubit>().login(),
+                            child: Container(
+                              width: 55,
+                              height: 55,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                border:
+                                    Border.all(color: Colors.black, width: 2),
+                              ),
+                              child: Center(
+                                child: state is GoogleAuthLoadingState
+                                    ? const CircularProgressIndicator()
+                                    : Image.asset(
+                                        'lib/assets/google_icon.png',
+                                        width: 35,
+                                        height: 35,
+                                      ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 20),
                       MouseRegion(
                         cursor: SystemMouseCursors.click,
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                          },
                           child: Container(
                             width: 55,
                             height: 55,
