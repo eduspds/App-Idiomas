@@ -21,7 +21,8 @@ class FluentifyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(), // Definindo a tela de login como a tela inicial
+      home:
+          const LoginScreen(), // Definindo a tela de login como a tela inicial
       initialRoute: '/',
       routes: {
         '/login': (context) => const LoginScreen(),
