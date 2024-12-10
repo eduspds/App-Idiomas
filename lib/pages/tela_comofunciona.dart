@@ -1,6 +1,98 @@
 import 'package:flutter/material.dart';
 
-class TelaComoFunciona extends StatelessWidget {
+class TelaComoFunciona extends StatefulWidget {
+  @override
+  _TelaComoFuncionaState createState() => _TelaComoFuncionaState();
+}
+
+class _TelaComoFuncionaState extends State<TelaComoFunciona> {
+  int currentIndex = 0;
+
+  final List<Map<String, String>> contentList = [
+    {
+      "title": "Bem-vindo ao nosso aplicativo de aprendizado de idiomas!",
+      "text":
+          "Aqui, você vai encontrar uma forma prática e eficiente de aprender e testar seus conhecimentos de acordo com o Quadro Europeu Comum de Referência para Línguas (CEFR). Vamos explicar como funciona o nosso método e o processo para conquistar a sua certificação!",
+      "image": "lib/assets/Fluentifylogo.png",
+    },
+    {
+      "title": "O Quadro Europeu Comum de Referência para Línguas (CEFR)",
+      "text":
+          "O CEFR é uma estrutura internacional que avalia a proficiência linguística em seis níveis, indo do básico ao proficiente. Com esse sistema, podemos classificar seu nível de conhecimento de acordo com sua capacidade de compreensão e expressão na língua, além de facilitar o acompanhamento do seu progresso ao longo do aprendizado.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "Aqui estão os níveis de proficiência de acordo com o CEFR:",
+      "text":
+          "A1 (Iniciante): Você é capaz de compreender e usar expressões cotidianas e simples para satisfazer necessidades básicas. Pode se apresentar e fazer perguntas simples sobre si mesmo e outros.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "A2 (Básico): Você compreende frases e expressões simples sobre áreas do cotidiano, como informações pessoais e familiares. Consegue comunicar-se em situações rotineiras que exigem uma troca de informações simples.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "B1 (Intermediário): Você compreende as questões principais quando a linguagem é clara e os temas são familiares, como trabalho, escola e lazer. Consegue lidar com a maioria das situações no país onde a língua é falada e consegue falar de forma coerente sobre tópicos pessoais.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "B2 (Usuário Independente): Você compreende as ideias principais em textos mais complexos e consegue se comunicar espontaneamente com falantes nativos, sem dificuldades. Consegue argumentar de forma clara e detalhada sobre temas diversos.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "C1 (Proficiência Operativa Eficaz): Você compreende textos longos e exigentes, e pode expressar-se de forma fluente e espontânea, usando a língua de maneira flexível para fins sociais, acadêmicos e profissionais.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "C2 (Domínio Pleno): Você compreende praticamente tudo o que ouve ou lê sem esforço. Consegue expressar-se de forma espontânea e fluente, com precisão, e distinguir variações sutis de significado em situações complexas.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "",
+      "text":
+          "Para garantir que você comece no nível adequado, oferecemos um teste de nivelamento inicial. Ele ajuda a identificar seu nível de proficiência e a adaptar as lições de acordo com suas necessidades. O teste é composto por questões práticas, que avaliam seu conhecimento atual do idioma.",
+      "image": "lib/assets/SLIDE2.png",
+    },
+    {
+      "title": "Metodologia do App",
+      "text":
+          "Nosso aplicativo adota uma metodologia interativa e dinâmica para tornar o aprendizado mais eficiente. A cada nível, você terá acesso a uma série de questões e atividades que testarão seus conhecimentos, de forma semelhante a testes de proficiência. A cada acerto, você avançará no conteúdo, e ao final de cada nível, será possível visualizar seu progresso.",
+      "image": "lib/assets/METOD.png",
+    },
+    {
+      "title": "Certificação",
+      "text":
+          "Após completar um nível e acertar pelo menos 7 questões no teste final de cada nível, você receberá um certificado digital. Este certificado será gerado automaticamente em formato PDF e estará disponível para você fazer o download. Ele comprova sua proficiência no idioma, conforme o nível alcançado de acordo com o CEFR.",
+      "image": "lib/assets/CERTI.png",
+    },
+  ];
+
+  void nextContent() {
+    setState(() {
+      if (currentIndex < contentList.length - 1) {
+        currentIndex++;
+      }
+    });
+  }
+
+  void previousContent() {
+    setState(() {
+      if (currentIndex > 0) {
+        currentIndex--;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,7 +101,7 @@ class TelaComoFunciona extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context); // Volta para a tela anterior
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -21,136 +113,75 @@ class TelaComoFunciona extends StatelessWidget {
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('lib/assets/iniciobg.png'),
+            image: AssetImage("lib/assets/iniciobg.png"),
             fit: BoxFit.cover,
           ),
         ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Column(
+        child: Center(
+          child: Container(
+            width: 350,
+            height: 500,
+            padding: const EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 6,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  contentList[currentIndex]["image"]!,
+                  width: (currentIndex >= 1 && currentIndex <= 9) ? 170 : 100,
+                  height: (currentIndex >= 1 && currentIndex <= 9) ? 170 : 100,
+                ),
+                const SizedBox(height: 15),
+                if (contentList[currentIndex]["title"]!.isNotEmpty)
+                  Text(
+                    contentList[currentIndex]["title"]!,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                const SizedBox(height: 15),
+                Text(
+                  contentList[currentIndex]["text"]!,
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset(
-                      'lib/assets/Fluentifylogo.png',
-                      width: 180,
-                      height: 180,
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Como Funciona',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    if (currentIndex > 0)
+                      IconButton(
+                        onPressed: previousContent,
+                        icon: const Icon(Icons.arrow_back),
+                        color: Colors.red,
                       ),
-                    ),
-                    const SizedBox(height: 20),
+                    if (currentIndex < contentList.length - 1)
+                      IconButton(
+                        onPressed: nextContent,
+                        icon: const Icon(Icons.arrow_forward),
+                        color: Colors.red,
+                      ),
                   ],
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Bem-vindo ao nosso aplicativo de aprendizado de idiomas!',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Aqui, você vai encontrar uma forma prática e eficiente de aprender e testar seus conhecimentos de acordo com o Quadro Europeu Comum de Referência para Línguas (CEFR). Vamos explicar como funciona o nosso método e o processo para conquistar a sua certificação!',
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'O Quadro Europeu Comum de Referência para Línguas (CEFR)',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'O CEFR é uma estrutura internacional que avalia a proficiência linguística em seis níveis, indo do básico ao proficiente. Com esse sistema, podemos classificar seu nível de conhecimento de acordo com sua capacidade de compreensão e expressão na língua, além de facilitar o acompanhamento do seu progresso ao longo do aprendizado.',
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Aqui estão os níveis de proficiência de acordo com o CEFR:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text('A — Básico'),
-                    Text(
-                        'A1 (Iniciante): Você é capaz de compreender e usar expressões cotidianas e simples para satisfazer necessidades básicas. Pode se apresentar e fazer perguntas simples sobre si mesmo e outros.'),
-                    Text(
-                        'A2 (Básico): Você compreende frases e expressões simples sobre áreas do cotidiano, como informações pessoais e familiares. Consegue comunicar-se em situações rotineiras que exigem uma troca de informações simples.'),
-                    SizedBox(height: 10),
-                    Text('B — Independente'),
-                    Text(
-                        'B1 (Intermediário): Você compreende as questões principais quando a linguagem é clara e os temas são familiares, como trabalho, escola e lazer. Consegue lidar com a maioria das situações no país onde a língua é falada e consegue falar de forma coerente sobre tópicos pessoais.'),
-                    Text(
-                        'B2 (Usuário Independente): Você compreende as ideias principais em textos mais complexos e consegue se comunicar espontaneamente com falantes nativos, sem dificuldades. Consegue argumentar de forma clara e detalhada sobre temas diversos.'),
-                    SizedBox(height: 10),
-                    Text('C — Proficiente'),
-                    Text(
-                        'C1 (Proficiência Operativa Eficaz): Você compreende textos longos e exigentes, e pode expressar-se de forma fluente e espontânea, usando a língua de maneira flexível para fins sociais, acadêmicos e profissionais.'),
-                    Text(
-                        'C2 (Domínio Pleno): Você compreende praticamente tudo o que ouve ou lê sem esforço. Consegue expressar-se de forma espontânea e fluente, com precisão, e distinguir variações sutis de significado em situações complexas.'),
-                    SizedBox(height: 20),
-                    Text(
-                      'O Teste de Nivelamento',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Para garantir que você comece no nível adequado, oferecemos um teste de nivelamento inicial. Ele ajuda a identificar seu nível de proficiência e a adaptar as lições de acordo com suas necessidades. O teste é composto por questões práticas, que avaliam seu conhecimento atual do idioma.',
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Metodologia do App',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Nosso aplicativo adota uma metodologia interativa e dinâmica para tornar o aprendizado mais eficiente. A cada nível, você terá acesso a uma série de questões e atividades que testarão seus conhecimentos, de forma semelhante a testes de proficiência. A cada acerto, você avançará no conteúdo, e ao final de cada nível, será possível visualizar seu progresso.',
-                    ),
-                    SizedBox(height: 20),
-                    Text(
-                      'Certificação',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Após completar um nível e acertar pelo menos 7 questões no teste final de cada nível, você receberá um certificado digital. Este certificado será gerado automaticamente em formato PDF e estará disponível para você fazer o download. Ele comprova sua proficiência no idioma, conforme o nível alcançado de acordo com o CEFR.',
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

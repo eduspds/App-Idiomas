@@ -69,6 +69,9 @@ flutter:
   - lib/assets/google_icon.png
   - lib/assets/facebook_icon.png
   - lib/assets/iniciobg.png
+  - lib/assets/SLIDE2.png
+  - lib/assets/METOD.png
+  - lib/assets/CERTI.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
