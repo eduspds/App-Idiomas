@@ -50,9 +50,9 @@ class TelaPoliticadeprivacidade extends StatelessWidget {
                   color: Colors.white.withOpacity(0.8),
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     Text(
                       'Política de Privacidade',
                       style: TextStyle(

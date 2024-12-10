@@ -65,8 +65,8 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context); // Fecha o modal
                 _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
               },
-              child:
-                  const Text('Espanhol', style: TextStyle(color: Colors.black)),
+              child: 
+              const Text('Espanhol', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
                 minimumSize:
                     const Size(double.infinity, 50), // Padroniza o tamanho
@@ -209,7 +209,7 @@ class _LearningPathState extends State<LearningPath> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Começando do 0',
                         style: TextStyle(
                           color: Colors.black,
@@ -247,7 +247,7 @@ class _LearningPathState extends State<LearningPath> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Teste de Nivelamento',
                         style: TextStyle(
                           color: Colors.black,

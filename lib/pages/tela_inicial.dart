@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
-import 'tela_comofunciona.dart';
 import 'tela_trilhadeaprendizado.dart';
-import 'tela_comecedo0.dart';
 import 'tela_politicadeprivacidade.dart';
 
 class HomeScreen extends StatefulWidget {
