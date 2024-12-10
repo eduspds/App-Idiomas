@@ -18,6 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final AuthService _authService = AuthService(); // Instância do AuthService
 
+  bool _isDarkMode = false;
+
+  void _toggleTheme(bool value) {
+    setState(() {
+      _isDarkMode = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -44,10 +52,18 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
+                color: _isDarkMode 
+                    ? const Color.fromARGB(255, 7, 7, 7) 
+                    : const Color.fromARGB(153, 239, 239, 239),
                 image: DecorationImage(
-                  image: AssetImage('lib/assets/iniciobg.png'),
+                  image: AssetImage(
+                    _isDarkMode ? 'lib/assets/darkbg.png' : 'lib/assets/iniciobg.png', 
+                  ),
                   fit: BoxFit.cover,
+                  colorFilter: _isDarkMode
+                      ? const ColorFilter.mode(Colors.black54, BlendMode.darken)
+                      : null,
                 ),
               ),
               child: Center(
@@ -60,95 +76,44 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 180,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
+                    Text(
                       'Bem-vindo ao Fluentify!',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      width: screenSize.width * 0.8,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TelaComoFunciona(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Como funciona?',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                    _buildButton(
+                      context,
+                      'Como funciona?',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TelaComoFunciona(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      width: screenSize.width * 0.8,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DashboardScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Meu progresso',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                    _buildButton(
+                      context,
+                      'Meu progresso',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DashboardScreen(),
                         ),
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      width: screenSize.width * 0.8,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LearningPath(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Trilha de Aprendizado',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                    _buildButton(
+                      context,
+                      'Trilha de Aprendizado',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LearningPath(),
                         ),
                       ),
                     ),
@@ -161,15 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: Drawer(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFE0E0E0),
+          decoration: BoxDecoration(
+            color: _isDarkMode ? const Color.fromARGB(255, 27, 27, 27) : const Color(0xFFE0E0E0),
           ),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFC44A45),
+                decoration: BoxDecoration(
+                  color: _isDarkMode ? const Color.fromARGB(255, 27, 27, 27) : const Color(0xFFC44A45),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -180,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 100,
                     ),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       'Bem-vindo!',
                       style: TextStyle(
                         color: Colors.white,
@@ -191,99 +156,138 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              ListTile(
-                leading: const Icon(Icons.person, color: Colors.black),
-                title: const Text(
-                  'Perfil',
-                  style: TextStyle(color: Colors.black),
+              _buildDrawerItem(Icons.person, 'Perfil', context, () => Navigator.pop(context)),
+              _buildDrawerItem(Icons.help, 'Ajuda', context, () => Navigator.pop(context)),
+              _buildDrawerItem(
+                Icons.privacy_tip,
+                'Políticas de Privacidade',
+                context,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TelaPoliticadeprivacidade(isDarkMode: _isDarkMode),
+                  ),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
               ),
-              ListTile(
-                leading: const Icon(Icons.help, color: Colors.black),
-                title: const Text(
-                  'Ajuda',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
+              _buildDrawerItem(
+                Icons.settings,
+                'Configurações',
+                context,
+                () => _showSettingsDialog(context),
               ),
-              ListTile(
-                leading: const Icon(Icons.privacy_tip, color: Colors.black),
-                title: const Text(
-                  'Políticas de Privacidade',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TelaPoliticadeprivacidade()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.black),
-                title: const Text(
-                  'Configurações',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.black),
-                title: const Text(
-                  'Sair',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Confirmar Logout"),
-                        content:
-                            const Text("Você tem certeza que deseja sair?"),
-                        actions: [
-                          TextButton(
-                            child: const Text("Cancelar"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text("Sair"),
-                            onPressed: () async {
-                              Navigator.of(context).pop(); // Fecha o diálogo
-                              try {
-                                await _authService
-                                    .logoutUser(); // Chama o método de logout
-                                Navigator.of(context).pushReplacementNamed(
-                                    '/login'); // Redireciona para a tela de login
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Erro ao fazer logout: $e'),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
+              _buildDrawerItem(Icons.logout, 'Sair', context, () => _showLogoutDialog(context)),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildButton(BuildContext context, String text, VoidCallback onPressed) {
+    final Size screenSize = MediaQuery.of(context).size;
+    return Container(
+      width: screenSize.width * 0.8,
+      height: 45,
+      decoration: BoxDecoration(
+        color: _isDarkMode ? Colors.grey[800]?.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(
+    IconData icon,
+    String title,
+    BuildContext context,
+    VoidCallback onTap,
+  ) {
+    return ListTile(
+      leading: Icon(icon, color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27)),
+      title: Text(
+        title,
+        style: TextStyle(color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27)),
+      ),
+      onTap: onTap,
+    );
+  }
+
+  void _showSettingsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Configurações"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Modo escuro:'),
+              Switch(
+                value: _isDarkMode,
+                onChanged: (value) {
+                  _toggleTheme(value);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("Fechar"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmar Logout"),
+          content: const Text("Você tem certeza que deseja sair?"),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text("Sair"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                try {
+                  await _authService.logoutUser();
+                  Navigator.of(context).pushReplacementNamed('/login');
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Erro ao fazer logout: $e'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
