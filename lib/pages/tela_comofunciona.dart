@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TelaComoFunciona extends StatefulWidget {
+  final bool isDarkMode;
+  TelaComoFunciona({required this.isDarkMode});
+
   @override
   _TelaComoFuncionaState createState() => _TelaComoFuncionaState();
 }
@@ -77,6 +80,7 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
     },
   ];
 
+
   void nextContent() {
     setState(() {
       if (currentIndex < contentList.length - 1) {
@@ -95,11 +99,13 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = widget.isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFC44A45),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -114,9 +120,22 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
       ),
       body: Container(
         decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isDarkMode
+                ? [Color(0xFF2B2B2B), Color(0xFF1E1E1E)] // Tons escuros
+                : [Color(0xFFF5F5F5), Color(0xFFFFFFFF)], // Tons claros
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
           image: DecorationImage(
-            image: AssetImage("lib/assets/iniciobg.png"),
+            image: AssetImage(
+              isDarkMode ? "lib/assets/darkbg.png" : "lib/assets/iniciobg.png",
+            ),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              isDarkMode ? Colors.black.withOpacity(0.5) : Colors.white.withOpacity(0.7),
+              BlendMode.darken,
+            ),
           ),
         ),
         child: Center(
@@ -125,7 +144,7 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
             height: 500,
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDarkMode ? const Color(0xFF3A3A3A) : Colors.white,
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
@@ -141,24 +160,26 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
               children: [
                 Image.asset(
                   contentList[currentIndex]["image"]!,
-                  width: (currentIndex >= 1 && currentIndex <= 9) ? 170 : 100,
-                  height: (currentIndex >= 1 && currentIndex <= 9) ? 170 : 100,
+                  width: 150,
+                  height: 150,
                 ),
                 const SizedBox(height: 15),
                 if (contentList[currentIndex]["title"]!.isNotEmpty)
                   Text(
                     contentList[currentIndex]["title"]!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 const SizedBox(height: 15),
                 Text(
                   contentList[currentIndex]["text"]!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
                   textAlign: TextAlign.justify,
                 ),
@@ -169,14 +190,14 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
                     if (currentIndex > 0)
                       IconButton(
                         onPressed: previousContent,
-                        icon: const Icon(Icons.arrow_back),
-                        color: Colors.red,
+                        icon: Icon(Icons.arrow_back,
+                            color: isDarkMode ? Colors.white : Colors.red),
                       ),
                     if (currentIndex < contentList.length - 1)
                       IconButton(
                         onPressed: nextContent,
-                        icon: const Icon(Icons.arrow_forward),
-                        color: Colors.red,
+                        icon: Icon(Icons.arrow_forward,
+                            color: isDarkMode ? Colors.white : Colors.red),
                       ),
                   ],
                 ),
