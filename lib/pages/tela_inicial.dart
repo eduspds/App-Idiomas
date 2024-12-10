@@ -4,6 +4,8 @@ import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_trilhadeaprendizado.dart';
 import 'tela_politicadeprivacidade.dart';
+import 'tela_editar_perfil.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -28,6 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
+
     return Scaffold(
       key: _scaffoldKey,
       body: Row(
@@ -51,12 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: _isDarkMode 
-                    ? const Color.fromARGB(255, 7, 7, 7) 
+                color: _isDarkMode
+                    ? const Color.fromARGB(255, 7, 7, 7)
                     : const Color.fromARGB(153, 239, 239, 239),
                 image: DecorationImage(
                   image: AssetImage(
-                    _isDarkMode ? 'lib/assets/darkbg.png' : 'lib/assets/iniciobg.png', 
+                    _isDarkMode
+                        ? 'lib/assets/darkbg.png'
+                        : 'lib/assets/iniciobg.png',
                   ),
                   fit: BoxFit.cover,
                   colorFilter: _isDarkMode
@@ -79,7 +86,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27),
+                        color: _isDarkMode
+                            ? Colors.white
+                            : const Color.fromARGB(255, 27, 27, 27),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -89,7 +98,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TelaComoFunciona(isDarkMode: _isDarkMode),
+                          builder: (context) =>
+                              TelaComoFunciona(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -125,14 +135,18 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         child: Container(
           decoration: BoxDecoration(
-            color: _isDarkMode ? const Color.fromARGB(255, 27, 27, 27) : const Color(0xFFE0E0E0),
+            color: _isDarkMode
+                ? const Color.fromARGB(255, 27, 27, 27)
+                : const Color(0xFFE0E0E0),
           ),
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
                 decoration: BoxDecoration(
-                  color: _isDarkMode ? const Color.fromARGB(255, 27, 27, 27) : const Color(0xFFC44A45),
+                  color: _isDarkMode
+                      ? const Color.fromARGB(255, 27, 27, 27)
+                      : const Color(0xFFC44A45),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 100,
                     ),
                     const SizedBox(height: 10),
-                    Text(
+                    const Text(
                       'Bem-vindo!',
                       style: TextStyle(
                         color: Colors.white,
@@ -154,8 +168,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              _buildDrawerItem(Icons.person, 'Perfil', context, () => Navigator.pop(context)),
-              _buildDrawerItem(Icons.help, 'Ajuda', context, () => Navigator.pop(context)),
+              _buildDrawerItem(Icons.person, 'Perfil', context, () {
+                if (userId.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content:
+                        Text('Por favor, faca login para acessar o perfil.'),
+                  ));
+                  return;
+                }
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfileScreen(userId: userId)),
+                );
+              }),
+              _buildDrawerItem(
+                  Icons.help, 'Ajuda', context, () => Navigator.pop(context)),
               _buildDrawerItem(
                 Icons.privacy_tip,
                 'Políticas de Privacidade',
@@ -163,7 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TelaPoliticadeprivacidade(isDarkMode: _isDarkMode),
+                    builder: (context) =>
+                        TelaPoliticadeprivacidade(isDarkMode: _isDarkMode),
                   ),
                 ),
               ),
@@ -173,7 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 context,
                 () => _showSettingsDialog(context),
               ),
-              _buildDrawerItem(Icons.logout, 'Sair', context, () => _showLogoutDialog(context)),
+              _buildDrawerItem(Icons.logout, 'Sair', context,
+                  () => _showLogoutDialog(context)),
             ],
           ),
         ),
@@ -181,13 +210,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildButton(BuildContext context, String text, VoidCallback onPressed) {
+  Widget _buildButton(
+      BuildContext context, String text, VoidCallback onPressed) {
     final Size screenSize = MediaQuery.of(context).size;
     return Container(
       width: screenSize.width * 0.8,
       height: 45,
       decoration: BoxDecoration(
-        color: _isDarkMode ? Colors.grey[800]?.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+        color: _isDarkMode
+            ? Colors.grey[800]?.withOpacity(0.9)
+            : Colors.white.withOpacity(0.9),
         border: Border.all(color: Colors.black, width: 2),
         borderRadius: BorderRadius.circular(15),
       ),
@@ -196,7 +228,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text(
           text,
           style: TextStyle(
-            color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27),
+            color: _isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 27, 27, 27),
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
@@ -212,10 +246,16 @@ class _HomeScreenState extends State<HomeScreen> {
     VoidCallback onTap,
   ) {
     return ListTile(
-      leading: Icon(icon, color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27)),
+      leading: Icon(icon,
+          color: _isDarkMode
+              ? Colors.white
+              : const Color.fromARGB(255, 27, 27, 27)),
       title: Text(
         title,
-        style: TextStyle(color: _isDarkMode ? Colors.white : const Color.fromARGB(255, 27, 27, 27)),
+        style: TextStyle(
+            color: _isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 27, 27, 27)),
       ),
       onTap: onTap,
     );

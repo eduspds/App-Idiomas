@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -15,6 +16,26 @@ class AuthService {
       throw Exception('Erro ao fazer login: $e');
     }
   }
+
+  Future<void> _saveUserToFirestore(User user) async {
+  final userDoc = FirebaseFirestore.instance.collection('users').doc(user.uid);
+
+  // Verifica se o usuário já existe
+  final userSnapshot = await userDoc.get();
+
+  if (!userSnapshot.exists) {
+    await userDoc.set({
+      'nomeUsuario': user.displayName ?? 'Usuário',
+      'email': user.email,
+      'dataRegistro': Timestamp.now(),
+      'nomeCompleto': null,
+      'dataNascimento': null,
+      'genero': null,
+      'bio': null,
+    });
+  }
+}
+
 
   // Registro
   Future<User?> registerUser(String email, String password) async {

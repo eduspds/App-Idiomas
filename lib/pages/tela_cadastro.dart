@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/auth_services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -12,6 +13,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final AuthService _authService = AuthService();
 
 
@@ -22,8 +24,9 @@ class _SignupScreenState extends State<SignupScreen> {
   final email = _emailController.text.trim();
   final password = _passwordController.text.trim();
   final confirmPassword = _confirmPasswordController.text.trim();
+  final nomeUsuario = _usernameController.text.trim();
 
-  if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+  if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty || nomeUsuario.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Por favor, preencha todos os campos!')),
     );
@@ -38,21 +41,47 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   try {
+  
+    // Verificar se o nome de usuário já está em uso
+    final existingUsername = await FirebaseFirestore.instance
+      .collection('users')
+      .where('nomeUsuario', isEqualTo: nomeUsuario)
+      .get();
+
+    if (existingUsername.docs.isNotEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nome de usuário já está em uso. Escolha outro.')),
+      );
+      return;
+    }
+
     // AuthService 
     final user = await _authService.registerUser(email, password);
 
-    if (user != null) {
+  if (user != null) {
+        // Salvar dados no Firestore
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'nomeUsuario': nomeUsuario,
+          'email': email,
+          'dataRegistro': Timestamp.now(),
+          'nomeCompleto': null,
+          'dataNascimento': null,
+          'genero': null,
+          'bio': null,
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Usuário registrado com sucesso!')),
+        );
+        Navigator.pop(context); // Voltar para a tela anterior
+      }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuário registrado com sucesso!')),
+        SnackBar(content: Text('Erro: ${e.toString()}')),
       );
-      Navigator.pop(context);
     }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Erro: ${e.toString()}')),
-    );
   }
-}
+
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +110,25 @@ class _SignupScreenState extends State<SignupScreen> {
                     height: 180,
                   ),
                   const SizedBox(height: 30),
+                  Container(
+                    width: screenSize.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black, width: 2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: TextField(
+                      controller: _usernameController,
+                      decoration: const InputDecoration(
+                        hintText: 'Nome de Usuário',
+                        hintStyle: TextStyle(color: Colors.grey),
+                        border: InputBorder.none,
+                        contentPadding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
                   Container(
                     width: screenSize.width * 0.8,
                     decoration: BoxDecoration(
