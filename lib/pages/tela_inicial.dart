@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LearningPath(),
+                          builder: (context) => LearningPath(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -195,14 +195,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              _buildDrawerItem(
-                Icons.settings,
-                'Configurações',
-                context,
-                () => _showSettingsDialog(context),
-              ),
               _buildDrawerItem(Icons.logout, 'Sair', context,
                   () => _showLogoutDialog(context)),
+              const Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.dark_mode,
+                  color: _isDarkMode
+                      ? Colors.white
+                      : const Color.fromARGB(255, 27, 27, 27),
+                ),
+                title: Text(
+                  'Modo escuro',
+                  style: TextStyle(
+                    color: _isDarkMode
+                        ? Colors.white
+                        : const Color.fromARGB(255, 27, 27, 27),
+                  ),
+                ),
+                trailing: Switch(
+                  value: _isDarkMode,
+                  onChanged: (value) {
+                    _toggleTheme(value);
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -261,38 +278,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showSettingsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Configurações"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Modo escuro:'),
-              Switch(
-                value: _isDarkMode,
-                onChanged: (value) {
-                  _toggleTheme(value);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Fechar"),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -306,6 +291,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+
             ),
             TextButton(
               child: const Text("Sair"),

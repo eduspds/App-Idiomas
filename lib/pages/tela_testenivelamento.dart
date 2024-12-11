@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'tela_estudopersonalizado.dart';
 
 class TelaTesteNivelamento extends StatefulWidget {
+   final bool isDarkMode;
+
+  const TelaTesteNivelamento({Key? key, required this.isDarkMode}) : super(key: key);
+
   @override
   _TelaTesteNivelamentoState createState() => _TelaTesteNivelamentoState();
 }
@@ -408,6 +412,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
     }
   }
 
+ 
   @override
   void initState() {
     super.initState();
@@ -418,12 +423,13 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
       ...levels['B2']!,
       ...levels['C1']!,
       ...levels['C2']!,
-    ]; // Carregar todas as perguntas de todos os níveis
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final isDarkMode = widget.isDarkMode;// Verifica o tema
 
     return Scaffold(
       appBar: AppBar(
@@ -446,7 +452,9 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'lib/assets/iniciobg.png', // imagem de fundo
+              isDarkMode
+                  ? 'lib/assets/darkbg.png' // Imagem para o modo escuro
+                  : 'lib/assets/iniciobg.png', // Imagem para o modo claro
               fit: BoxFit.cover,
             ),
           ),
@@ -456,7 +464,6 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // Logo centralizado
                   Container(
                     width: screenSize.width * 0.6,
                     child: Image.asset(
@@ -465,26 +472,31 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  // Pergunta com a numeração
+                  // Pergunta com numeração
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDarkMode ? Colors.grey[800] : Colors.white,
                       borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.black, width: 2),
+                      border: Border.all(
+                          color: isDarkMode ? Colors.white : Colors.black,
+                          width: 2),
                     ),
                     child: Column(
                       children: [
                         Text(
                           'Pergunta ${currentQuestionIndex + 1} de ${currentLevelQuestions!.length}',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode ? Colors.white : Colors.black),
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          currentLevelQuestions![currentQuestionIndex]
-                              ['question'],
-                          style: const TextStyle(fontSize: 18),
+                          currentLevelQuestions![currentQuestionIndex]['question'],
+                          style: TextStyle(
+                              fontSize: 18,
+                              color: isDarkMode ? Colors.white : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -494,37 +506,34 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                   // Campo de resposta
                   TextField(
                     controller: answerController,
+                    style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Sua resposta',
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle:
+                          TextStyle(color: isDarkMode ? Colors.white : Colors.black),
                       border: OutlineInputBorder(),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
                     ),
                   ),
                   const SizedBox(height: 20),
                   // Botão de confirmar ou próxima pergunta
                   ElevatedButton(
                     onPressed: () {
-                      // Verificação de resposta
                       if (answerController.text.toLowerCase() ==
-                          currentLevelQuestions![currentQuestionIndex]['answer']
-                              .toLowerCase()) {
+                          currentLevelQuestions![currentQuestionIndex]['answer'].toLowerCase()) {
                         setState(() {
                           totalScore +=
-                              (currentLevelQuestions![currentQuestionIndex]
-                                      ['points'] as num)
+                              (currentLevelQuestions![currentQuestionIndex]['points'] as num)
                                   .toInt();
                         });
                       }
 
                       setState(() {
-                        // Aumenta o índice da pergunta apenas se não for a última pergunta
-                        if (currentQuestionIndex <
-                            currentLevelQuestions!.length - 1) {
+                        if (currentQuestionIndex < currentLevelQuestions!.length - 1) {
                           currentQuestionIndex++;
                         } else {
-                          // Se for a última pergunta, exibe o resultado
                           String nivel = getNivelDeProficiencia();
                           showDialog(
                             context: context,
@@ -534,7 +543,6 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                                 content: Text(
                                     'Seu nível de proficiência é: $nivel\nPontuação: $totalScore'),
                                 actions: [
-                                  // Botão de reiniciar
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
@@ -545,17 +553,14 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                                     },
                                     child: const Text('Reiniciar'),
                                   ),
-                                  // Botão de estudo personalizado
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
-                                      // Redireciona para a página de Estudo Personalizado
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              EstudoPersonalizadoPage(
-                                                  currentLevel: currentLevel),
+                                              EstudoPersonalizadoPage(currentLevel: currentLevel),
                                         ),
                                       );
                                     },
@@ -570,11 +575,9 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
                     ),
-                    child: Text(currentQuestionIndex ==
-                            currentLevelQuestions!.length - 1
+                    child: Text(currentQuestionIndex == currentLevelQuestions!.length - 1
                         ? 'Finalizar'
                         : 'Próxima Pergunta'),
                   ),
