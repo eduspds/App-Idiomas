@@ -14,8 +14,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
       key: _scaffoldKey,
       body: Row(
@@ -39,7 +37,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           // Conteúdo principal da Dashboard
           Expanded(
             child: Container(
-              color: const Color(0xFFF4F4F4),
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('lib/assets/iniciobg.png'),
+                  fit: BoxFit.cover,
+                ),
+              ),
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,7 +57,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         margin: const EdgeInsets.only(bottom: 16.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border.all(color: Colors.black, width: 2),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 6,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
@@ -71,8 +80,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               margin: const EdgeInsets.only(right: 8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
@@ -85,8 +99,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               margin: const EdgeInsets.only(left: 8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 2),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
@@ -98,15 +117,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   const SizedBox(height: 16.0),
                   Expanded(
                     flex: 1,
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 16.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black, width: 2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 6,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Palavra do Dia',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'SERENDPITY',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFAF4B46),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Descoberta feliz ou inesperada, feita por acaso.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -147,6 +200,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ],
                 ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.home, color: Colors.black),
+                title: const Text(
+                  'Voltar à Tela Inicial',
+                  style: TextStyle(color: Colors.black),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushReplacementNamed('/tela_inicial');
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.person, color: Colors.black),
