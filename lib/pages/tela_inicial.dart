@@ -3,9 +3,10 @@ import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_trilhadeaprendizado.dart';
-import 'tela_politicadeprivacidade.dart';
-import 'tela_editar_perfil.dart';
+import 'tela_perfil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'tela_politicadeprivacidade.dart';
+import 'tela_ajuda.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
-
     final User? user = FirebaseAuth.instance.currentUser;
     final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
 
@@ -98,8 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              TelaComoFunciona(isDarkMode: _isDarkMode),
+                          builder: (context) => TelaComoFunciona(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -121,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LearningPath(),
+                          builder: (context) => LearningPath(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -168,21 +167,43 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              _buildDrawerItem(Icons.person, 'Perfil', context, () {
-                if (userId.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content:
-                        Text('Por favor, faca login para acessar o perfil.'),
-                  ));
-                  return;
-                }
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EditProfileScreen(userId: userId)),
-                );
-              }),
+              ListTile(
+                leading: Icon(
+                  Icons.person,
+                  color: _isDarkMode ? Colors.white : Colors.black,
+                ),
+                title: Text(
+                  'Perfil',
+                  style: TextStyle(
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TelaPerfil(
+                        isDarkMode: _isDarkMode,
+                        userId: userId, // Aqui o userId é passado corretamente
+                      ),
+                    ),
+                  );
+                },
+              ),
+
               _buildDrawerItem(
-                  Icons.help, 'Ajuda', context, () => Navigator.pop(context)),
+                  Icons.help, 'Ajuda', 
+                  context,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        TelaAjuda(isDarkMode: _isDarkMode)
+                  ),
+                ),
+              ),
+
               _buildDrawerItem(
                 Icons.privacy_tip,
                 'Políticas de Privacidade',
@@ -195,14 +216,31 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              _buildDrawerItem(
-                Icons.settings,
-                'Configurações',
-                context,
-                () => _showSettingsDialog(context),
-              ),
               _buildDrawerItem(Icons.logout, 'Sair', context,
                   () => _showLogoutDialog(context)),
+              const Divider(),
+              ListTile(
+                leading: Icon(
+                  Icons.dark_mode,
+                  color: _isDarkMode
+                      ? Colors.white
+                      : const Color.fromARGB(255, 27, 27, 27),
+                ),
+                title: Text(
+                  'Modo escuro',
+                  style: TextStyle(
+                    color: _isDarkMode
+                        ? Colors.white
+                        : const Color.fromARGB(255, 27, 27, 27),
+                  ),
+                ),
+                trailing: Switch(
+                  value: _isDarkMode,
+                  onChanged: (value) {
+                    _toggleTheme(value);
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -239,6 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+
   Widget _buildDrawerItem(
     IconData icon,
     String title,
@@ -261,37 +300,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _showSettingsDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Configurações"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Modo escuro:'),
-              Switch(
-                value: _isDarkMode,
-                onChanged: (value) {
-                  _toggleTheme(value);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Fechar"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   void _showLogoutDialog(BuildContext context) {
     showDialog(
@@ -306,6 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
+
             ),
             TextButton(
               child: const Text("Sair"),
@@ -329,3 +338,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

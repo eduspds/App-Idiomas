@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TelaPoliticadeprivacidade extends StatelessWidget {
   final bool isDarkMode;
 
-  TelaPoliticadeprivacidade({required this.isDarkMode});
+  const TelaPoliticadeprivacidade({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +16,9 @@ class TelaPoliticadeprivacidade extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Políticas de Privacidade',
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -188,7 +188,7 @@ class TelaPoliticadeprivacidade extends StatelessWidget {
                               : const Color.fromARGB(255, 27, 27, 27),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                     Text(
                         'Nos reservamos o direito de modificar esta Política de Privacidade a qualquer momento. Quando isso ocorrer, a versão atualizada será disponibilizada no aplicativo e será efetiva imediatamente após sua publicação.',
                         style: TextStyle(
@@ -197,7 +197,7 @@ class TelaPoliticadeprivacidade extends StatelessWidget {
                               : const Color.fromARGB(255, 27, 27, 27),
                         ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Text('Consentimento',
                         style: TextStyle(
                           fontSize: 18,
@@ -207,7 +207,7 @@ class TelaPoliticadeprivacidade extends StatelessWidget {
                               : const Color.fromARGB(255, 27, 27, 27),
                         ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                         'Ao usar nosso aplicativo, voce concorda com a coleta e uso de seus dados pessoais conforme descrito nesta Política de Privacidade.',
                          style: TextStyle(

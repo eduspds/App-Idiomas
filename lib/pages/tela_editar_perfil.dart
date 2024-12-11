@@ -3,21 +3,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String userId;
-  const EditProfileScreen({required this.userId, Key? key}) : super(key: key);
+  const EditProfileScreen({required this.userId, super.key});
 
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  EditProfileScreenState createState() => EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _nomeUsuarioController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   DateTime? _dataNascimento;
   String _genero = ' ';
 
   Future<void> _loadUserData() async {
-    DocumentSnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance.collection('users').doc(widget.userId).get();
+    DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+        .instance
+        .collection('users')
+        .doc(widget.userId)
+        .get();
 
     if (snapshot.exists) {
       final data = snapshot.data();
@@ -32,10 +35,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<void> _updateProfile() async {
     try {
-      await FirebaseFirestore.instance.collection('users').doc(widget.userId).update({
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.userId)
+          .update({
         'nomeUsuario': _nomeUsuarioController.text.trim(),
         'bio': _bioController.text.trim(),
-        'dataNascimento': _dataNascimento != null ? Timestamp.fromDate(_dataNascimento!) : null,
+        'dataNascimento': _dataNascimento != null
+            ? Timestamp.fromDate(_dataNascimento!)
+            : null,
         'genero': _genero,
       });
       ScaffoldMessenger.of(context).showSnackBar(

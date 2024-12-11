@@ -16,7 +16,6 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final AuthService _authService = AuthService();
 
-
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 

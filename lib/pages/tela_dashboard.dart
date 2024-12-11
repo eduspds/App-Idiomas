@@ -14,7 +14,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
+    // final Size screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -66,8 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                            },
+                            onTap: () {},
                             child: Container(
                               margin: const EdgeInsets.only(right: 8.0),
                               decoration: BoxDecoration(
@@ -81,8 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         Expanded(
                           child: GestureDetector(
-                            onTap: () {
-                            },
+                            onTap: () {},
                             child: Container(
                               margin: const EdgeInsets.only(left: 8.0),
                               decoration: BoxDecoration(
@@ -101,8 +99,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
-                      onTap: () {
-                      },
+                      onTap: () {},
                       child: Container(
                         margin: const EdgeInsets.only(top: 16.0),
                         decoration: BoxDecoration(
@@ -203,7 +200,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text("Confirmar Logout"),
-                        content: const Text("Você tem certeza que deseja sair?"),
+                        content:
+                            const Text("Você tem certeza que deseja sair?"),
                         actions: [
                           TextButton(
                             child: const Text("Cancelar"),
@@ -214,10 +212,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           TextButton(
                             child: const Text("Sair"),
                             onPressed: () async {
-                              Navigator.of(context).pop(); 
+                              Navigator.of(context).pop();
                               try {
-                                await _authService.logoutUser(); // Chama o método de logout
-                                Navigator.of(context).pushReplacementNamed('/login'); // Redireciona para a tela de login
+                                await _authService
+                                    .logoutUser(); // Chama o método de logout
+                                Navigator.of(context).pushReplacementNamed(
+                                    '/login'); // Redireciona para a tela de login
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

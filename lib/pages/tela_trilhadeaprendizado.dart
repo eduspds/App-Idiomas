@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
-import 'tela_comecedo0.dart';
-import 'tela_testenivelamento.dart';
+import 'tela_comecedo0pt.dart';
+import 'tela_testenivelamentopt.dart';
+import 'tela_comecedo0en.dart'; // Importe a tela de inglês
+import 'tela_testenivelamentoen.dart'; // Importe a tela de teste de nivelamento em inglês
 
 class LearningPath extends StatefulWidget {
+  final bool isDarkMode;
+
+  const LearningPath({super.key, required this.isDarkMode});
+
   @override
   _LearningPathState createState() => _LearningPathState();
+  
 }
 
+
 class _LearningPathState extends State<LearningPath> {
+  bool _isDarkMode = false;
+
+  void _toggleTheme(bool value) {
+    setState(() {
+      _isDarkMode = value;
+    });
+  }
   String? selectedLanguage; // Variável para armazenar o idioma escolhido
 
   // Função para mostrar o modal de escolha de idioma
@@ -27,36 +42,32 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context);
                 _showLanguageAvailableMessage();
               },
-              child: const Text('Português',
-                  style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
+              child: const Text('Português', style: TextStyle(color: Colors.black)),
             ),
-            SizedBox(height: 10), // Espaço entre os botões
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   selectedLanguage = 'Inglês'; // Salva a escolha
                 });
                 Navigator.pop(context); // Fecha o modal
-                _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
+                _showLanguageAvailableMessage(); // Exibe a mensagem de idioma disponível
               },
-              child:
-                  const Text('Inglês', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
+              child: const Text('Inglês', style: TextStyle(color: Colors.black)),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 setState(() {
@@ -65,15 +76,13 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context); // Fecha o modal
                 _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
               },
-              child:
-                  const Text('Espanhol', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50), // Padroniza o tamanho
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
+              child: const Text('Espanhol', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
@@ -84,14 +93,14 @@ class _LearningPathState extends State<LearningPath> {
   // Função para mostrar a mensagem de idioma indisponível
   void _showLanguageUnavailableMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Idioma indisponível! Trilha em desenvolvimento.'),
-        backgroundColor: Colors.black, // Cor de fundo preta para destaque
+      const SnackBar(
+        content: Text('Idioma indisponível! Trilha em desenvolvimento.'),
+        backgroundColor: Colors.black,
       ),
     );
 
     // Após exibir a mensagem, reabre o modal para escolher o idioma correto
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       _showLanguageDialog();
     });
   }
@@ -99,8 +108,8 @@ class _LearningPathState extends State<LearningPath> {
   // Função para mostrar a mensagem de idioma disponível
   void _showLanguageAvailableMessage() {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text('Idioma disponível! Trilha iniciada!'),
+      const SnackBar(
+        content: Text('Idioma disponível! Trilha iniciada!'),
         backgroundColor: Colors.black,
       ),
     );
@@ -109,6 +118,7 @@ class _LearningPathState extends State<LearningPath> {
   @override
   void initState() {
     super.initState();
+     _isDarkMode = widget.isDarkMode;
     // Exibe o modal de escolha de idioma apenas se o idioma não foi selecionado
     if (selectedLanguage == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -125,6 +135,10 @@ class _LearningPathState extends State<LearningPath> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
+    // Cores dependendo do modo
+    final buttonColor = widget.isDarkMode ? Colors.grey[800] : Colors.white;
+    final buttonTextColor = widget.isDarkMode ? Colors.white : Colors.black;
 
     return Scaffold(
       appBar: AppBar(
@@ -147,9 +161,14 @@ class _LearningPathState extends State<LearningPath> {
         children: [
           // Imagem de fundo
           Positioned.fill(
-            child: Image.asset(
-              'lib/assets/iniciobg.png',
-              fit: BoxFit.cover,
+            child: ColorFiltered(
+              colorFilter: widget.isDarkMode
+                  ? ColorFilter.mode(Colors.black.withOpacity(0.7), BlendMode.darken)
+                  : const ColorFilter.mode(Colors.transparent, BlendMode.darken),
+              child: Image.asset(
+                widget.isDarkMode ? 'lib/assets/darkbg.png' : 'lib/assets/iniciobg.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           // Conteúdo da tela
@@ -169,12 +188,12 @@ class _LearningPathState extends State<LearningPath> {
                         height: 180,
                       ),
                       const SizedBox(height: 20),
-                      const Text(
+                      Text(
                         'Trilha de Aprendizado',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                           color: _isDarkMode ? Colors.white : Colors.white,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -185,26 +204,35 @@ class _LearningPathState extends State<LearningPath> {
                     width: screenSize.width * 0.8,
                     height: 45,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: buttonColor,
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: TextButton(
-                      onPressed:
-                          _isLanguageSelected() // Só permite ação se o idioma for escolhido
-                              ? () {
-                                  // Navegar para a tela de questões ou outro conteúdo
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          QuestionsScreen(), // Tela de questões
-                                    ),
-                                  );
-                                }
-                              : null, // Desabilita o botão até o idioma ser escolhido
+                      onPressed: _isLanguageSelected()
+                          ? () {
+                            if (selectedLanguage == 'Português') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreenPT(isDarkMode: _isDarkMode),
+                                ),
+                              );
+                            } else if (selectedLanguage == 'Inglês') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => QuestionsScreenEN(isDarkMode: _isDarkMode),
+                                ),
+                              );
+                            } else {
+                              // Opcional: exiba uma mensagem caso o idioma não esteja disponível
+                              _showLanguageUnavailableMessage();
+                            }
+                          }
+                        : null, // Desabilita o botão até o idioma ser escolhido
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: buttonColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -212,37 +240,46 @@ class _LearningPathState extends State<LearningPath> {
                       child: Text(
                         'Começando do 0',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: buttonTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
                     width: screenSize.width * 0.8,
                     height: 45,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: buttonColor,
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: TextButton(
-                      onPressed:
-                          _isLanguageSelected() // Só permite ação se o idioma for escolhido
-                              ? () {
-                                  // Navegar para a tela de questões ou outro conteúdo
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          TelaTesteNivelamento(), // Tela de questões
-                                    ),
-                                  );
-                                }
-                              : null, // Desa
+                    onPressed: _isLanguageSelected()
+                        ? () {
+                            if (selectedLanguage == 'Português') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TelaTesteNivelamentoPT(isDarkMode: _isDarkMode),
+                                ),
+                              );
+                            } else if (selectedLanguage == 'Inglês') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => TelaTesteNivelamentoEN(isDarkMode: _isDarkMode),
+                                ),
+                              );
+                            } else {
+                              // Opcional: exiba uma mensagem caso o idioma não esteja disponível
+                              _showLanguageUnavailableMessage();
+                            }
+                          }
+                        : null, // Desabilita o botão até o idioma ser escolhido
                       style: TextButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: buttonColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -250,7 +287,7 @@ class _LearningPathState extends State<LearningPath> {
                       child: Text(
                         'Teste de Nivelamento',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: buttonTextColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -265,5 +302,3 @@ class _LearningPathState extends State<LearningPath> {
     );
   }
 }
-
-// Definição da tela de questões, substitua conforme necessário

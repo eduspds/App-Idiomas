@@ -12,23 +12,23 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
   final TextEditingController _emailController = TextEditingController();
   final AuthService _authService = AuthService();
 
- Future<void> _recoverPassword() async {
-  final email = _emailController.text.trim();
+  Future<void> _recoverPassword() async {
+    final email = _emailController.text.trim();
 
-  if (email.isEmpty) {
-    _showMessage("Por favor, insira um e-mail.");
-    return;
+    if (email.isEmpty) {
+      _showMessage("Por favor, insira um e-mail.");
+      return;
+    }
+
+    try {
+      // auth_services
+      await _authService.recoverPassword(email);
+      _showMessage(
+          "E-mail de recuperação enviado! Verifique sua caixa de entrada.");
+    } catch (e) {
+      _showMessage("Erro: $e");
+    }
   }
-
-  try {
-    // auth_services
-    await _authService.recoverPassword(email);
-    _showMessage("E-mail de recuperação enviado! Verifique sua caixa de entrada.");
-  } catch (e) {
-    _showMessage("Erro: $e");
-  }
-}
-
 
   void _showMessage(String message) {
     showDialog(
