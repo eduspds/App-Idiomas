@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'tela_comecedo0.dart';
-import 'tela_testenivelamento.dart';
+import 'tela_comecedo0pt.dart';
+import 'tela_testenivelamentopt.dart';
+import 'tela_comecedo0en.dart'; // Importe a tela de inglês
+import 'tela_testenivelamentoen.dart'; // Importe a tela de teste de nivelamento em inglês
 
 class LearningPath extends StatefulWidget {
   @override
@@ -30,27 +32,25 @@ class _LearningPathState extends State<LearningPath> {
               child: const Text('Português',
                   style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
             ),
-            SizedBox(height: 10), // Espaço entre os botões
+            SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   selectedLanguage = 'Inglês'; // Salva a escolha
                 });
                 Navigator.pop(context); // Fecha o modal
-                _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
+                _showLanguageAvailableMessage(); // Exibe a mensagem de idioma disponível
               },
               child:
                   const Text('Inglês', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -65,11 +65,10 @@ class _LearningPathState extends State<LearningPath> {
                 Navigator.pop(context); // Fecha o modal
                 _showLanguageUnavailableMessage(); // Exibe a mensagem de idioma indisponível
               },
-              child: 
-              const Text('Espanhol', style: TextStyle(color: Colors.black)),
+              child:
+                  const Text('Espanhol', style: TextStyle(color: Colors.black)),
               style: ElevatedButton.styleFrom(
-                minimumSize:
-                    const Size(double.infinity, 50), // Padroniza o tamanho
+                minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                 ),
@@ -86,7 +85,7 @@ class _LearningPathState extends State<LearningPath> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: const Text('Idioma indisponível! Trilha em desenvolvimento.'),
-        backgroundColor: Colors.black, // Cor de fundo preta para destaque
+        backgroundColor: Colors.black,
       ),
     );
 
@@ -197,8 +196,10 @@ class _LearningPathState extends State<LearningPath> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          QuestionsScreen(), // Tela de questões
+                                      builder: (context) => selectedLanguage ==
+                                              'Português'
+                                          ? QuestionsScreenPT()
+                                          : QuestionsScreenEN(), // Tela de questões conforme o idioma
                                     ),
                                   );
                                 }
@@ -235,8 +236,10 @@ class _LearningPathState extends State<LearningPath> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          TelaTesteNivelamento(), // Tela de questões
+                                      builder: (context) => selectedLanguage ==
+                                              'Português'
+                                          ? TelaTesteNivelamentoPT()
+                                          : TelaTesteNivelamentoEN(), // Tela de teste de nivelamento conforme o idioma
                                     ),
                                   );
                                 }
@@ -265,5 +268,3 @@ class _LearningPathState extends State<LearningPath> {
     );
   }
 }
-
-// Definição da tela de questões, substitua conforme necessário

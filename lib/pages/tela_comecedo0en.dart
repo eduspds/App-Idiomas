@@ -1,211 +1,213 @@
 import 'package:flutter/material.dart';
 
-class QuestionsScreen extends StatefulWidget {
+class QuestionsScreenEN extends StatefulWidget {
   @override
   _QuestionsScreenState createState() => _QuestionsScreenState();
 }
 
-class _QuestionsScreenState extends State<QuestionsScreen> {
+class _QuestionsScreenState extends State<QuestionsScreenEN> {
   final List<Map<String, dynamic>> questions = [
-    // Nível A1
+    // Level A1
     {
       'level': 'A1',
-      'question': 'Complete: Eu ___ João.',
-      'answer': 'sou',
-      'hint': 'Verbo ser no presente'
+      'question': 'Complete: I ___ João.',
+      'answer': 'am',
+      'hint': 'Verb "to be" in the present'
     },
     {
       'level': 'A1',
-      'question': 'Complete: Ele ___ em casa.',
-      'answer': 'está',
-      'hint': 'Verbo estar no presente'
+      'question': 'Complete: He ___ at home.',
+      'answer': 'is',
+      'hint': 'Verb "to be" in the present'
     },
     {
       'level': 'A1',
-      'question': 'Complete: Nós ___ amigos.',
-      'answer': 'somos',
-      'hint': 'Verbo ser no plural'
+      'question': 'Complete: We ___ friends.',
+      'answer': 'are',
+      'hint': 'Verb "to be" in the plural'
     },
     {
       'level': 'A1',
-      'question': 'Complete: Eles ___ felizes.',
-      'answer': 'são',
-      'hint': 'Verbo ser no presente'
+      'question': 'Complete: They ___ happy.',
+      'answer': 'are',
+      'hint': 'Verb "to be" in the present'
     },
     {
       'level': 'A1',
-      'question': 'Complete: Você ___ meu amigo.',
-      'answer': 'é',
-      'hint': 'Verbo ser no singular'
+      'question': 'Complete: You ___ my friend.',
+      'answer': 'are',
+      'hint': 'Verb "to be" in the singular'
     },
 
-    // Nível A2
+    // Level A2
     {
       'level': 'A2',
-      'question': 'Complete: Eles ___ cedo para o trabalho.',
-      'answer': 'saem',
-      'hint': 'Verbo sair no presente'
+      'question': 'Complete: They ___ early for work.',
+      'answer': 'leave',
+      'hint': 'Verb "to leave" in the present'
     },
     {
       'level': 'A2',
-      'question': 'Complete: Você sempre ___ café pela manhã.',
-      'answer': 'bebe',
-      'hint': 'Verbo beber no presente'
+      'question': 'Complete: You always ___ coffee in the morning.',
+      'answer': 'drink',
+      'hint': 'Verb "to drink" in the present'
     },
     {
       'level': 'A2',
-      'question': 'Complete: Eu ___ para a escola de bicicleta.',
-      'answer': 'vou',
-      'hint': 'Verbo ir no presente'
+      'question': 'Complete: I ___ to school by bike.',
+      'answer': 'go',
+      'hint': 'Verb "to go" in the present'
     },
     {
       'level': 'A2',
-      'question': 'Complete: Nós ___ ao cinema no sábado.',
-      'answer': 'vamos',
-      'hint': 'Verbo ir no plural'
+      'question': 'Complete: We ___ to the cinema on Saturday.',
+      'answer': 'go',
+      'hint': 'Verb "to go" in the plural'
     },
     {
       'level': 'A2',
-      'question': 'Complete: Ela ___ um livro interessante.',
-      'answer': 'leu',
-      'hint': 'Verbo ler no passado'
+      'question': 'Complete: She ___ an interesting book.',
+      'answer': 'read',
+      'hint': 'Verb "to read" in the past'
     },
 
-    // Nível B1
+    // Level B1
     {
       'level': 'B1',
-      'question': 'Complete: Se eu ___ tempo, irei ao parque.',
-      'answer': 'tiver',
-      'hint': 'Verbo ter no futuro do subjuntivo'
+      'question': 'Complete: If I ___ time, I will go to the park.',
+      'answer': 'have',
+      'hint': 'Verb "to have" in the future subjunctive'
     },
     {
       'level': 'B1',
-      'question': 'Complete: Eles ___ o relatório amanhã.',
-      'answer': 'entregarão',
-      'hint': 'Verbo entregar no futuro do indicativo'
+      'question': 'Complete: They ___ the report tomorrow.',
+      'answer': 'will deliver',
+      'hint': 'Verb "to deliver" in the future indicative'
     },
     {
       'level': 'B1',
-      'question': 'Complete: Se ela ___ mais estudos, passaria na prova.',
-      'answer': 'fizesse',
-      'hint': 'Verbo fazer no passado do subjuntivo'
+      'question': 'Complete: If she ___ more studies, she would pass the test.',
+      'answer': 'studied',
+      'hint': 'Verb "to study" in the past subjunctive'
     },
     {
       'level': 'B1',
-      'question': 'Complete: Quando eu ___ mais velho, vou viajar pelo mundo.',
-      'answer': 'for',
-      'hint': 'Verbo ser no futuro do subjuntivo'
+      'question': 'Complete: When I ___ older, I will travel the world.',
+      'answer': 'am',
+      'hint': 'Verb "to be" in the future subjunctive'
     },
     {
       'level': 'B1',
-      'question': 'Complete: Eles ___ viajar nas férias.',
-      'answer': 'vão',
-      'hint': 'Verbo ir no presente'
+      'question': 'Complete: They ___ travel during the holidays.',
+      'answer': 'will go',
+      'hint': 'Verb "to go" in the present'
     },
 
-    // Nível B2
+    // Level B2
     {
       'level': 'B2',
-      'question': 'Complete: Eu espero que ela ___ a decisão corretamente.',
-      'answer': 'tome',
-      'hint': 'Verbo tomar no presente do subjuntivo'
+      'question': 'Complete: I hope she ___ the decision correctly.',
+      'answer': 'makes',
+      'hint': 'Verb "to make" in the present subjunctive'
     },
     {
       'level': 'B2',
-      'question': 'Complete: Se você ___ mais cedo, teria chegado a tempo.',
-      'answer': 'saísse',
-      'hint': 'Verbo sair no pretérito imperfeito do subjuntivo'
+      'question':
+          'Complete: If you ___ earlier, you would have arrived on time.',
+      'answer': 'left',
+      'hint': 'Verb "to leave" in the past imperfect subjunctive'
     },
     {
       'level': 'B2',
-      'question': 'Complete: Ele disse que ___ ao evento amanhã.',
-      'answer': 'iria',
-      'hint': 'Verbo ir no futuro do pretérito'
+      'question': 'Complete: He said he ___ to the event tomorrow.',
+      'answer': 'would go',
+      'hint': 'Verb "to go" in the future conditional'
     },
     {
       'level': 'B2',
-      'question': 'Complete: Se eles ___ mais atentos, poderiam evitar o erro.',
-      'answer': 'fossem',
-      'hint': 'Verbo ser no subjuntivo imperfeito'
+      'question':
+          'Complete: If they ___ more attentive, they could have avoided the mistake.',
+      'answer': 'were',
+      'hint': 'Verb "to be" in the imperfect subjunctive'
     },
     {
       'level': 'B2',
-      'question': 'Complete: Eu teria ido se vocês ___ me avisado.',
-      'answer': 'tivessem',
-      'hint': 'Verbo ter no pluperfeito do subjuntivo'
+      'question': 'Complete: I would have gone if you ___ me.',
+      'answer': 'had told',
+      'hint': 'Verb "to tell" in the pluperfect subjunctive'
     },
 
-    // Nível C1
+    // Level C1
     {
       'level': 'C1',
       'question':
-          'Complete: Caso ela ___ mais tempo, teria realizado o projeto.',
-      'answer': 'tivesse',
-      'hint': 'Verbo ter no pretérito imperfeito do subjuntivo'
-    },
-    {
-      'level': 'C1',
-      'question':
-          'Complete: Se eles ___ mais experiência, poderiam assumir essa tarefa.',
-      'answer': 'tivessem',
-      'hint': 'Verbo ter no subjuntivo imperfeito'
+          'Complete: If she ___ more time, she would have completed the project.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the imperfect subjunctive'
     },
     {
       'level': 'C1',
       'question':
-          'Complete: Não acredito que ele ___ conseguido terminar a tempo.',
-      'answer': 'tenha',
-      'hint': 'Verbo ter no subjuntivo presente'
+          'Complete: If they ___ more experience, they could take this task.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the imperfect subjunctive'
+    },
+    {
+      'level': 'C1',
+      'question': 'Complete: I don\'t believe he ___ finished on time.',
+      'answer': 'has',
+      'hint': 'Verb "to have" in the present subjunctive'
     },
     {
       'level': 'C1',
       'question':
-          'Complete: Caso eu ___ viajado, teria aproveitado mais a viagem.',
-      'answer': 'tivesse',
-      'hint': 'Verbo ter no subjuntivo mais-que-perfeito'
+          'Complete: If I ___ traveled, I would have enjoyed the trip more.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the past perfect subjunctive'
     },
     {
       'level': 'C1',
       'question':
-          'Complete: É fundamental que ela ___ sua opinião antes da reunião.',
-      'answer': 'expresse',
-      'hint': 'Verbo expressar no subjuntivo presente'
+          'Complete: It is essential that she ___ her opinion before the meeting.',
+      'answer': 'express',
+      'hint': 'Verb "to express" in the present subjunctive'
     },
 
-    // Nível C2
+    // Level C2
     {
       'level': 'C2',
-      'question': 'Complete: Se eu ___ mais tempo, teria aprofundado o estudo.',
-      'answer': 'tivesse',
-      'hint': 'Verbo ter no subjuntivo mais-que-perfeito'
+      'question':
+          'Complete: If I ___ more time, I would have gone deeper into the study.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the pluperfect subjunctive'
     },
     {
       'level': 'C2',
       'question':
-          'Complete: Não seria possível que eles ___ completado a tarefa tão rapidamente.',
-      'answer': 'tivessem',
-      'hint': 'Verbo ter no pluperfeito do subjuntivo'
+          'Complete: It wouldn\'t be possible for them ___ completed the task so quickly.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the pluperfect subjunctive'
     },
     {
       'level': 'C2',
       'question':
-          'Complete: Embora ele ___ todas as evidências, não aceitou a teoria.',
-      'answer': 'tivesse',
-      'hint': 'Verbo ter no pretérito imperfeito do subjuntivo'
+          'Complete: Although he ___ all the evidence, he didn\'t accept the theory.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the imperfect subjunctive'
     },
     {
       'level': 'C2',
       'question':
-          'Complete: Mesmo que eles ___ melhores condições, não teriam sido mais eficientes.',
-      'answer': 'tivessem',
-      'hint': 'Verbo ter no subjuntivo imperfeito'
+          'Complete: Even if they ___ better conditions, they wouldn\'t have been more efficient.',
+      'answer': 'had',
+      'hint': 'Verb "to have" in the imperfect subjunctive'
     },
     {
       'level': 'C2',
       'question':
-          'Complete: Eu teria preferido que ela tivesse ___ uma explicação mais detalhada.',
-      'answer': 'dado',
-      'hint': 'Verbo dar no pretérito mais-que-perfeito'
+          'Complete: I would have preferred if she had ___ a more detailed explanation.',
+      'answer': 'given',
+      'hint': 'Verb "to give" in the past perfect'
     },
   ];
 
@@ -219,27 +221,25 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
       if (currentQuestionIndex < questions.length - 1) {
         setState(() {
           currentQuestionIndex++;
-          userAnswer = ''; // Limpa a resposta após cada pergunta correta
+          userAnswer = ''; // Clear answer after correct question
           showFeedback = false;
         });
       } else {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title:
-                const Text('Parabéns!', style: TextStyle(color: Colors.black)),
-            content: const Text(
-              'Você completou o quiz.',
-              style: TextStyle(),
-            ),
+            title: const Text('Congratulations!',
+                style: TextStyle(color: Colors.black)),
+            content:
+                const Text('You have completed the quiz.', style: TextStyle()),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 },
-                child: const Text('Finalizar',
-                    style: TextStyle(color: Colors.black)),
+                child:
+                    const Text('Finish', style: TextStyle(color: Colors.black)),
               ),
             ],
           ),
@@ -266,7 +266,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
           },
         ),
         title: const Text(
-          'Questões',
+          'Questions',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -305,7 +305,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     child: Column(
                       children: [
                         Text(
-                          'Nível ${questions[currentQuestionIndex]['level']}',
+                          'Level ${questions[currentQuestionIndex]['level']}',
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -317,7 +317,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          'Dica: ${questions[currentQuestionIndex]['hint']}',
+                          'Hint: ${questions[currentQuestionIndex]['hint']}',
                           style:
                               const TextStyle(fontSize: 14, color: Colors.grey),
                           textAlign: TextAlign.center,
@@ -333,7 +333,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                       });
                     },
                     decoration: InputDecoration(
-                      labelText: 'Digite sua resposta',
+                      labelText: 'Enter your answer',
                       border: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.black),
                       ),
@@ -353,15 +353,17 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
                     ),
-                    child: const Text('Confirmar',
+                    child: const Text('Confirm',
                         style: TextStyle(color: Colors.black)),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   if (showFeedback)
-                    const Text(
-                      'Resposta incorreta. Tente novamente.',
+                    Text(
+                      'Incorrect, try again!',
                       style: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.bold),
+                          fontSize: 16,
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold),
                     ),
                 ],
               ),

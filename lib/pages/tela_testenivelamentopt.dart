@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'tela_estudopersonalizado.dart';
+import 'tela_estudopersonalizadopt.dart';
 
-class TelaTesteNivelamento extends StatefulWidget {
+class TelaTesteNivelamentoPT extends StatefulWidget {
   @override
   _TelaTesteNivelamentoState createState() => _TelaTesteNivelamentoState();
 }
 
-class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
+class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
   final Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
       {

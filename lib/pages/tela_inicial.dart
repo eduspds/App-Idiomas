@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_idiomas_1/pages/tela_ajuda.dart';
 import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_trilhadeaprendizado.dart';
 import 'tela_politicadeprivacidade.dart';
+import 'tela_perfil.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -80,7 +83,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => TelaComoFunciona(),
+                              builder: (context) => TelaComoFunciona(
+                                isDarkMode: false,
+                              ),
                             ),
                           );
                         },
@@ -197,6 +202,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            TelaPerfil(userId: 'id_do_usuario')),
+                  );
                 },
               ),
               ListTile(
@@ -207,6 +218,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TelaAjuda()),
+                  );
                 },
               ),
               ListTile(
@@ -219,18 +234,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => TelaPoliticadeprivacidade()),
+                        builder: (context) =>
+                            TelaPoliticadeprivacidade(isDarkMode: false)),
                   );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.black),
-                title: const Text(
-                  'Configurações',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
                 },
               ),
               ListTile(
