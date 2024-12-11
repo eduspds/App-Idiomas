@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TelaAjuda extends StatefulWidget {
+  const TelaAjuda({super.key});
+
   @override
   _TelaAjudaState createState() => _TelaAjudaState();
 }
@@ -50,7 +52,7 @@ class _TelaAjudaState extends State<TelaAjuda> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/iniciobg.png'),
                 fit: BoxFit.cover,

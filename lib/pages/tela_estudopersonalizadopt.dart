@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class EstudoPersonalizadoPage extends StatefulWidget {
   final String currentLevel;
 
-  EstudoPersonalizadoPage({required this.currentLevel});
+  const EstudoPersonalizadoPage({super.key, required this.currentLevel});
 
   @override
   _EstudoPersonalizadoPageState createState() =>
@@ -266,7 +266,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo centralizado
-                  Container(
+                  SizedBox(
                     width: screenSize.width * 0.6,
                     child: Image.asset(
                       'lib/assets/Fluentifylogo.png',
@@ -313,9 +313,9 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                   // Campo de resposta
                   TextField(
                     controller: answerController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Sua resposta',
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.black),
                       border: OutlineInputBorder(),
                       filled: true,
                       fillColor: Colors.white,
@@ -347,7 +347,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                               return AlertDialog(
                                 title: const Text('Estudo Finalizado'),
                                 content:
-                                    Text('Você completou a trilha de estudos!'),
+                                    const Text('Você completou a trilha de estudos!'),
                                 actions: [
                                   TextButton(
                                     onPressed: () {

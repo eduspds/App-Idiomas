@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class QuestionsScreenEN extends StatefulWidget {
+  const QuestionsScreenEN({super.key});
+
   @override
   _QuestionsScreenState createState() => _QuestionsScreenState();
 }
@@ -287,7 +289,7 @@ class _QuestionsScreenState extends State<QuestionsScreenEN> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     width: screenSize.width * 0.6,
                     child: Image.asset(
                       'lib/assets/Fluentifylogo.png',
@@ -332,17 +334,17 @@ class _QuestionsScreenState extends State<QuestionsScreenEN> {
                         userAnswer = value;
                       });
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter your answer',
                       border: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.black),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black),
+                        borderSide: BorderSide(color: Colors.black),
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.black),
                     ),
                     style: const TextStyle(color: Colors.black),
                     cursorColor: Colors.black,
@@ -358,7 +360,7 @@ class _QuestionsScreenState extends State<QuestionsScreenEN> {
                   ),
                   const SizedBox(height: 20),
                   if (showFeedback)
-                    Text(
+                    const Text(
                       'Incorrect, try again!',
                       style: TextStyle(
                           fontSize: 16,

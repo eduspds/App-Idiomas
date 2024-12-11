@@ -82,7 +82,7 @@ class _TelaConfiguracoesState extends State<TelaConfiguracoes> {
                     _isDarkMode
                         ? 'Desativar Modo Escuro'
                         : 'Ativar Modo Escuro',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,

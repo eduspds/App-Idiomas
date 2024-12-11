@@ -1,11 +1,8 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_idiomas_1/pages/tela_ajuda.dart';
 import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_trilhadeaprendizado.dart';
-import 'tela_politicadeprivacidade.dart';
 import 'tela_perfil.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -128,30 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
-                      width: screenSize.width * 0.8,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black, width: 2),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => LearningPath(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Trilha de Aprendizado',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                    _buildButton(
+                      context,
+                      'Trilha de Aprendizado',
+                      () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LearningPath(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -210,79 +190,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+              _buildDrawerItem(Icons.logout, 'Sair', context,
+                  () => _showLogoutDialog(context)),
+              const Divider(),
               ListTile(
-                leading: const Icon(Icons.help, color: Colors.black),
-                title: const Text(
-                  'Ajuda',
-                  style: TextStyle(color: Colors.black),
+                leading: Icon(
+                  Icons.dark_mode,
+                  color: _isDarkMode
+                      ? Colors.white
+                      : const Color.fromARGB(255, 27, 27, 27),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TelaAjuda()),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.privacy_tip, color: Colors.black),
-                title: const Text(
-                  'Políticas de Privacidade',
-                  style: TextStyle(color: Colors.black),
+                title: Text(
+                  'Modo escuro',
+                  style: TextStyle(
+                    color: _isDarkMode
+                        ? Colors.white
+                        : const Color.fromARGB(255, 27, 27, 27),
+                  ),
                 ),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            TelaPoliticadeprivacidade(isDarkMode: false)),
-                  );
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.black),
-                title: const Text(
-                  'Sair',
-                  style: TextStyle(color: Colors.black),
+                trailing: Switch(
+                  value: _isDarkMode,
+                  onChanged: (value) {
+                    _toggleTheme(value);
+                  },
                 ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Confirmar Logout"),
-                        content:
-                            const Text("Você tem certeza que deseja sair?"),
-                        actions: [
-                          TextButton(
-                            child: const Text("Cancelar"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text("Sair"),
-                            onPressed: () async {
-                              Navigator.of(context).pop(); // Fecha o diálogo
-                              try {
-                                await _authService
-                                    .logoutUser(); // Chama o método de logout
-                                Navigator.of(context).pushReplacementNamed(
-                                    '/login'); // Redireciona para a tela de login
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Erro ao fazer logout: $e'),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
               ),
             ],
           ),
@@ -290,4 +221,93 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget _buildButton(
+      BuildContext context, String text, VoidCallback onPressed) {
+    final Size screenSize = MediaQuery.of(context).size;
+    return Container(
+      width: screenSize.width * 0.8,
+      height: 45,
+      decoration: BoxDecoration(
+        color: _isDarkMode
+            ? Colors.grey[800]?.withOpacity(0.9)
+            : Colors.white.withOpacity(0.9),
+        border: Border.all(color: Colors.black, width: 2),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextButton(
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: _isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 27, 27, 27),
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(
+    IconData icon,
+    String title,
+    BuildContext context,
+    VoidCallback onTap,
+  ) {
+    return ListTile(
+      leading: Icon(icon,
+          color: _isDarkMode
+              ? Colors.white
+              : const Color.fromARGB(255, 27, 27, 27)),
+      title: Text(
+        title,
+        style: TextStyle(
+            color: _isDarkMode
+                ? Colors.white
+                : const Color.fromARGB(255, 27, 27, 27)),
+      ),
+      onTap: onTap,
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Confirmar Logout"),
+          content: const Text("Você tem certeza que deseja sair?"),
+          actions: [
+            TextButton(
+              child: const Text("Cancelar"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+
+            ),
+            TextButton(
+              child: const Text("Sair"),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                try {
+                  await _authService.logoutUser();
+                  Navigator.of(context).pushReplacementNamed('/login');
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Erro ao fazer logout: $e'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
+

@@ -5,7 +5,7 @@ import 'tela_editar_perfil.dart';
 class TelaPerfil extends StatefulWidget {
   final String userId;
 
-  TelaPerfil({required this.userId});
+  const TelaPerfil({super.key, required this.userId});
 
   @override
   _TelaPerfil createState() => _TelaPerfil();
@@ -113,7 +113,7 @@ class _TelaPerfil extends State<TelaPerfil> {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/iniciobg.png'),
                 fit: BoxFit.cover,

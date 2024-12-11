@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class TelaComoFunciona extends StatefulWidget {
   final bool isDarkMode;
-  TelaComoFunciona({required this.isDarkMode});
+  const TelaComoFunciona({super.key, required this.isDarkMode});
 
   @override
   _TelaComoFuncionaState createState() => _TelaComoFuncionaState();
@@ -105,7 +105,7 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
       appBar: AppBar(
         backgroundColor: const Color(0xFFC44A45),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -122,8 +122,8 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: isDarkMode
-                ? [Color(0xFF2B2B2B), Color(0xFF1E1E1E)] // Tons escuros
-                : [Color(0xFFF5F5F5), Color(0xFFFFFFFF)], // Tons claros
+                ? [const Color(0xFF2B2B2B), const Color(0xFF1E1E1E)] // Tons escuros
+                : [const Color(0xFFF5F5F5), const Color(0xFFFFFFFF)], // Tons claros
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -146,7 +146,7 @@ class _TelaComoFuncionaState extends State<TelaComoFunciona> {
             decoration: BoxDecoration(
               color: isDarkMode ? const Color(0xFF3A3A3A) : Colors.white,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.black26,
                   blurRadius: 6,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'tela_estudopersonalizadoen.dart';
 
 class TelaTesteNivelamentoEN extends StatefulWidget {
+  const TelaTesteNivelamentoEN({super.key});
+
   @override
   _TelaTesteNivelamentoState createState() => _TelaTesteNivelamentoState();
 }
@@ -458,7 +460,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Logo centralizado
-                  Container(
+                  SizedBox(
                     width: screenSize.width * 0.6,
                     child: Image.asset(
                       'lib/assets/Fluentifylogo.png',
@@ -495,9 +497,9 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                   // Campo de resposta
                   TextField(
                     controller: answerController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Your answer',
-                      labelStyle: const TextStyle(color: Colors.black),
+                      labelStyle: TextStyle(color: Colors.black),
                       border: OutlineInputBorder(),
                       filled: true,
                       fillColor: Colors.white,
