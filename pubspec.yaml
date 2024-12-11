@@ -43,6 +43,7 @@ dependencies:
   google_sign_in: ^6.1.0 #usem o comando "dart pub add google_sign_in" para obter a dependencia
   provider: ^6.1.2
   firebase_auth_web: ^5.13.5
+  intl: ^0.20.1
 
 dev_dependencies:
   flutter_test:
