@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final String userId;
@@ -101,7 +102,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 Text(
                   _dataNascimento == null
                       ? 'Data de nascimento não selecionada'
-                      : 'Data: ${_dataNascimento!.toLocal()}'.split(' ')[0],
+                      : 'Data: ${DateFormat('dd/MM/yyyy').format(_dataNascimento!)}',
                 ),
                 TextButton(
                   onPressed: () => _selectDate(context),

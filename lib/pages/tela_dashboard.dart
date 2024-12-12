@@ -14,10 +14,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final Size screenSize = MediaQuery.of(context).size;
-
+     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFC44A45),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context); 
+          },
+        ),
+        elevation: 0,
+        title: const Text(
+          'Meu Progresso',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Row(
         children: [
           Container(
@@ -36,7 +52,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-          // Conteúdo principal da Dashboard
           Expanded(
             child: Container(
               color: const Color(0xFFF4F4F4),
@@ -47,9 +62,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Expanded(
                     flex: 2,
                     child: GestureDetector(
-                      onTap: () {
-                        // Ação ao clicar no bloco
-                      },
+                      onTap: () {},
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 16.0),
                         decoration: BoxDecoration(
@@ -71,8 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               margin: const EdgeInsets.only(right: 8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 2),
+                                border: Border.all(color: Colors.black, width: 2),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
@@ -85,8 +97,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               margin: const EdgeInsets.only(left: 8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 2),
+                                border: Border.all(color: Colors.black, width: 2),
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
@@ -200,8 +211,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: const Text("Confirmar Logout"),
-                        content:
-                            const Text("Você tem certeza que deseja sair?"),
+                        content: const Text("Você tem certeza que deseja sair?"),
                         actions: [
                           TextButton(
                             child: const Text("Cancelar"),
@@ -214,10 +224,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             onPressed: () async {
                               Navigator.of(context).pop();
                               try {
-                                await _authService
-                                    .logoutUser(); // Chama o método de logout
-                                Navigator.of(context).pushReplacementNamed(
-                                    '/login'); // Redireciona para a tela de login
+                                await _authService.logoutUser();
+                                Navigator.of(context).pushReplacementNamed('/login');
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
