@@ -10,7 +10,16 @@ class TelaTesteNivelamentoPT extends StatefulWidget {
   _TelaTesteNivelamentoState createState() => _TelaTesteNivelamentoState();
 }
 
+
 class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
+   bool _isDarkMode = false;
+
+  void _toggleTheme(bool value) {
+    setState(() {
+      _isDarkMode = value;
+    });
+  }
+  
   final Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
       {
@@ -416,6 +425,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
   @override
   void initState() {
     super.initState();
+    _isDarkMode = widget.isDarkMode;
     currentLevelQuestions = [
       ...levels['A1']!,
       ...levels['A2']!,
@@ -452,7 +462,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              isDarkMode
+              _isDarkMode
                   ? 'lib/assets/darkbg.png' // Imagem para o modo escuro
                   : 'lib/assets/iniciobg.png', // Imagem para o modo claro
               fit: BoxFit.cover,
@@ -560,7 +570,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              EstudoPersonalizadoPage(currentLevel: currentLevel),
+                                              EstudoPersonalizadoPage(currentLevel: currentLevel, isDarkMode: _isDarkMode,),
                                         ),
                                       );
                                     },
