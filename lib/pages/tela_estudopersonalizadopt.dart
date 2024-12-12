@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class EstudoPersonalizadoPage extends StatefulWidget {
   final String currentLevel;
+  final bool isDarkMode;
 
-  const EstudoPersonalizadoPage({super.key, required this.currentLevel});
+  const EstudoPersonalizadoPage({super.key, required this.isDarkMode, required this.currentLevel});
 
   @override
   _EstudoPersonalizadoPageState createState() =>
@@ -12,13 +13,10 @@ class EstudoPersonalizadoPage extends StatefulWidget {
 
 class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
   int currentQuestionIndex = 0; // Índice da pergunta
-  List<Map<String, dynamic>>?
-      customLevelQuestions; // Perguntas para o estudo personalizado
+  List<Map<String, dynamic>>? customLevelQuestions;
   int totalScore = 0; // Pontuação total do usuário
-  TextEditingController answerController =
-      TextEditingController(); // Controller para o campo de resposta
+  TextEditingController answerController = TextEditingController();
 
-  // Definir o mapa de perguntas por nível
   Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
       {
@@ -230,165 +228,195 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
     return questions;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+ @override
+Widget build(BuildContext context) {
+  final screenSize = MediaQuery.of(context).size;
+  final isDarkMode = widget.isDarkMode;
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFC44A45),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          'Estudo Personalizado',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: const Color(0xFFC44A45),
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Colors.white),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      title: Text(
+        'Estudo Personalizado',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: isDarkMode ? Colors.white : Colors.white, // Cor ajustada aqui
         ),
       ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              'lib/assets/iniciobg.png', // imagem de fundo
-              fit: BoxFit.cover,
-            ),
+    ),
+    body: Stack(
+      children: [
+        Positioned.fill(
+          child: Image.asset(
+            isDarkMode
+                ? 'lib/assets/darkbg.png' // Imagem de fundo para modo escuro
+                : 'lib/assets/iniciobg.png', // Imagem de fundo para modo claro
+            fit: BoxFit.cover,
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Logo centralizado
-                  SizedBox(
-                    width: screenSize.width * 0.6,
-                    child: Image.asset(
-                      'lib/assets/Fluentifylogo.png',
-                      fit: BoxFit.contain,
-                    ),
+        ),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: screenSize.width * 0.6,
+                  child: Image.asset(
+                    'lib/assets/Fluentifylogo.png',
+                    fit: BoxFit.contain,
                   ),
-                  const SizedBox(height: 10),
-                  // Nível do usuário
-                  Text(
-                    'Nível: ${widget.currentLevel}',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  'Nível: ${widget.currentLevel}',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkMode ? Colors.white : Colors.black,
                   ),
-                  const SizedBox(height: 20),
-                  // Pergunta com a numeração
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.black, width: 2),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Pergunta ${currentQuestionIndex + 1} de ${customLevelQuestions!.length}',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          customLevelQuestions![currentQuestionIndex]
-                              ['question'],
-                          style: const TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    color: isDarkMode ? Colors.grey[800] : Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                        color: isDarkMode ? Colors.white : Colors.black,
+                        width: 2),
                   ),
-                  const SizedBox(height: 20),
-                  // Campo de resposta
-                  TextField(
-                    controller: answerController,
-                    decoration: const InputDecoration(
-                      labelText: 'Sua resposta',
-                      labelStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(),
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Pergunta ${currentQuestionIndex + 1} de ${customLevelQuestions!.length}',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode ? Colors.white : Colors.black),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        customLevelQuestions![currentQuestionIndex]
+                            ['question'],
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: isDarkMode ? Colors.white : Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  // Botão de confirmar ou próxima pergunta
-                  ElevatedButton(
-                    onPressed: () {
-                      if (answerController.text.toLowerCase() ==
-                          customLevelQuestions![currentQuestionIndex]['answer']
-                              .toLowerCase()) {
-                        setState(() {
-                          totalScore +=
-                              (customLevelQuestions![currentQuestionIndex]
-                                      ['points'] as num)
-                                  .toInt();
-                        });
-                      }
-
+                ),
+                const SizedBox(height: 20),
+                TextField(
+                  controller: answerController,
+                  decoration: InputDecoration(
+                    labelText: 'Sua resposta',
+                    labelStyle: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black),
+                    border: const OutlineInputBorder(),
+                    filled: true,
+                    fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
+                  ),
+                  style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (answerController.text.toLowerCase() ==
+                        customLevelQuestions![currentQuestionIndex]['answer']
+                            .toLowerCase()) {
                       setState(() {
-                        currentQuestionIndex++;
-                        if (currentQuestionIndex >=
-                            customLevelQuestions!.length) {
-                          // Se o estudo for finalizado
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Estudo Finalizado'),
-                                content:
-                                    const Text('Você completou a trilha de estudos!'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        totalScore = 0;
-                                        currentQuestionIndex = 0;
-                                      });
-                                    },
-                                    child: const Text('Reiniciar'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                      // Aqui você pode fazer algo para retornar ou concluir a navegação
-                                    },
-                                    child: const Text('Finalizar Estudo'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        }
+                        totalScore++;
                       });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 30),
-                    ),
-                    child: Text(
-                        currentQuestionIndex + 1 == customLevelQuestions!.length
-                            ? 'Finalizar Estudo'
-                            : 'Próxima Pergunta'),
+                    }
+
+                    setState(() {
+                      currentQuestionIndex++;
+                      if (currentQuestionIndex >=
+                          customLevelQuestions!.length) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              backgroundColor: isDarkMode
+                                  ? Colors.grey[850]
+                                  : Colors.white,
+                              title: Text(
+                                'Estudo Finalizado',
+                                style: TextStyle(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                              content: Text(
+                                'Você completou a trilha de estudos!',
+                                style: TextStyle(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      totalScore = 0;
+                                      currentQuestionIndex = 0;
+                                    });
+                                  },
+                                  child: Text(
+                                    'Reiniciar',
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Finalizar Estudo',
+                                    style: TextStyle(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        isDarkMode ? Colors.grey[700] : Colors.white,
                   ),
-                ],
-              ),
+                  child: Text(
+                    currentQuestionIndex + 1 == customLevelQuestions!.length
+                        ? 'Finalizar Estudo'
+                        : 'Próxima Pergunta',
+                    style: TextStyle(
+                        color: isDarkMode ? Colors.white : Colors.black),
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 }

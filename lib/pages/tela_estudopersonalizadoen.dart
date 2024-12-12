@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class EstudoPersonalizadoEN extends StatefulWidget {
   final String currentLevel;
+  final bool isDarkMode;
 
-  const EstudoPersonalizadoEN({super.key, required this.currentLevel});
+  const EstudoPersonalizadoEN({super.key, required this.isDarkMode, required this.currentLevel});
 
   @override
   _EstudoPersonalizadoPageState createState() =>
@@ -233,6 +234,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final isDarkMode = widget.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
@@ -255,7 +257,9 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'lib/assets/iniciobg.png', // imagem de fundo
+            isDarkMode
+                ? 'lib/assets/darkbg.png' // Imagem de fundo para modo escuro
+                : 'lib/assets/iniciobg.png', // Imagem de fundo para modo claro// imagem de fundo
               fit: BoxFit.cover,
             ),
           ),
@@ -277,10 +281,10 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                   // Nível do usuário
                   Text(
                     'Level: ${widget.currentLevel}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                     color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -288,22 +292,24 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                   Container(
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isDarkMode ? Colors.grey[800] : Colors.white,
                       borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.black, width: 2),
+                      border: Border.all(color: isDarkMode ? Colors.white : Colors.black, width: 2),
                     ),
                     child: Column(
                       children: [
                         Text(
                           'Question ${currentQuestionIndex + 1} of ${customLevelQuestions!.length}',
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold, 
+                              color: isDarkMode ? Colors.white : Colors.black),
                         ),
                         const SizedBox(height: 10),
                         Text(
                           customLevelQuestions![currentQuestionIndex]
                               ['question'],
-                          style: const TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18,
+                          color: isDarkMode ? Colors.white : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -313,14 +319,16 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                   // Campo de resposta
                   TextField(
                     controller: answerController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Your Answer',
-                      labelStyle: TextStyle(color: Colors.black),
-                      border: OutlineInputBorder(),
+                      labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                      border: const OutlineInputBorder(),
                       filled: true,
-                      fillColor: Colors.white,
-                    ),
+                       fillColor: isDarkMode ? Colors.grey[800] : Colors.white,
                   ),
+                  style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black),
+                ),
                   const SizedBox(height: 20),
                   // Botão de confirmar ou próxima pergunta
                   ElevatedButton(
@@ -345,9 +353,22 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: const Text('Study Completed'),
+                                backgroundColor: isDarkMode
+                                  ? Colors.grey[850]
+                                  : Colors.white,
+                                title: Text('Study Completed',
+                                style: TextStyle(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black),
+                                ),
                                 content:
-                                    const Text('You have completed the study track!'),
+                                     Text('You have completed the study track!',
+                                    style: TextStyle(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -357,15 +378,25 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                                         currentQuestionIndex = 0;
                                       });
                                     },
-                                    child: const Text('Restart'),
+                                    child: Text('Restart',
+                                  style: TextStyle(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
                                   ),
+                                ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                       // Aqui você pode fazer algo para retornar ou concluir a navegação
                                     },
-                                    child: const Text('Finish Study'),
+                                    child: Text('Finish Study',
+                                 style: TextStyle(
+                                        color: isDarkMode
+                                            ? Colors.white
+                                            : Colors.black),
                                   ),
+                                ),
                                 ],
                               );
                             },
