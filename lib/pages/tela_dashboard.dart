@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_services.dart';
+import 'package:flutter_idiomas_1/widgets/drawer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -12,8 +14,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final AuthService _authService = AuthService();
 
+  
+  bool _isDarkMode = false;
+
+  void _toggleTheme(bool value) {
+    setState(() {
+      _isDarkMode = value;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -183,133 +197,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFFE0E0E0),
-          ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: const BoxDecoration(
-                  color: Color(0xFFC44A45),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'lib/assets/vetor.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Bem-vindo!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.home, color: Colors.black),
-                title: const Text(
-                  'Voltar à Tela Inicial',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed('/tela_inicial');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.person, color: Colors.black),
-                title: const Text(
-                  'Perfil',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.help, color: Colors.black),
-                title: const Text(
-                  'Ajuda',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.privacy_tip, color: Colors.black),
-                title: const Text(
-                  'Políticas de privacidade',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings, color: Colors.black),
-                title: const Text(
-                  'Configurações',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.black),
-                title: const Text(
-                  'Sair',
-                  style: TextStyle(color: Colors.black),
-                ),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("Confirmar Logout"),
-                        content: const Text("Você tem certeza que deseja sair?"),
-                        actions: [
-                          TextButton(
-                            child: const Text("Cancelar"),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: const Text("Sair"),
-                            onPressed: () async {
-                              Navigator.of(context).pop();
-                              try {
-                                await _authService.logoutUser();
-                                Navigator.of(context).pushReplacementNamed('/login');
-                              } catch (e) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Erro ao fazer logout: $e'),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
+      drawer: Cdrawer(
+        isDarkMode: _isDarkMode, 
+        userId: userId, 
+        onThemeToggle: _toggleTheme,
       ),
     );
   }

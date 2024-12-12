@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_idiomas_1/pages/Drawer.dart';
+import 'package:flutter_idiomas_1/widgets/drawer.dart';
 import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
-import '../services/auth_services.dart'; // Serviço de autenticação
 import 'tela_trilhadeaprendizado.dart';
-import 'tela_perfil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'tela_politicadeprivacidade.dart';
-import 'tela_ajuda.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final AuthService _authService = AuthService(); // Instância do AuthService
 
   bool _isDarkMode = false;
 
@@ -30,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size screenSize = MediaQuery.of(context).size;
     final User? user = FirebaseAuth.instance.currentUser;
     final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
 

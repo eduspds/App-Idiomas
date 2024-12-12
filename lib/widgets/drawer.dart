@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
-import 'tela_dashboard.dart';
 import '../services/auth_services.dart';
-import 'tela_trilhadeaprendizado.dart';
-import 'tela_perfil.dart';
-import 'tela_politicadeprivacidade.dart';
-import 'tela_ajuda.dart';
+import '../pages/tela_perfil.dart';
+import '../pages/tela_politicadeprivacidade.dart';
+import '../pages/tela_ajuda.dart';
 
 class Cdrawer extends StatelessWidget {
   final bool isDarkMode;
@@ -13,11 +10,11 @@ class Cdrawer extends StatelessWidget {
   final Function(bool) onThemeToggle;
 
   const Cdrawer({
-    Key? key,
+    super.key,
     required this.isDarkMode,
     required this.userId,
     required this.onThemeToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +147,7 @@ class Cdrawer extends StatelessWidget {
   }
 
   void _showLogoutDialog(BuildContext context) {
-    final AuthService _authService = AuthService();
+    final AuthService authService = AuthService();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -169,14 +166,18 @@ class Cdrawer extends StatelessWidget {
               onPressed: () async {
                 Navigator.of(context).pop();
                 try {
-                  await _authService.logoutUser();
+                  await authService.logoutUser();
+                  if (context.mounted) {
                   Navigator.of(context).pushReplacementNamed('/login');
+                  }
                 } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Erro ao fazer logout: $e'),
-                    ),
-                  );
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Erro ao fazer logout: $e'),
+                      ),
+                    );
+                  }
                 }
               },
             ),
