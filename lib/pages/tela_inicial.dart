@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_idiomas_1/pages/Drawer.dart';
 import 'package:flutter_idiomas_1/pages/tela_comofunciona.dart';
 import 'tela_dashboard.dart'; // Tela de Dashboard
 import '../services/auth_services.dart'; // Serviço de autenticação
@@ -131,119 +132,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: Container(
-          decoration: BoxDecoration(
-            color: _isDarkMode
-                ? const Color.fromARGB(255, 27, 27, 27)
-                : const Color(0xFFE0E0E0),
-          ),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: [
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: _isDarkMode
-                      ? const Color.fromARGB(255, 27, 27, 27)
-                      : const Color(0xFFC44A45),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'lib/assets/vetor.png',
-                      width: 100,
-                      height: 100,
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Bem-vindo!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.person,
-                  color: _isDarkMode ? Colors.white : Colors.black,
-                ),
-                title: Text(
-                  'Perfil',
-                  style: TextStyle(
-                    color: _isDarkMode ? Colors.white : Colors.black,
-                  ),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TelaPerfil(
-                        isDarkMode: _isDarkMode,
-                        userId: userId, // Aqui o userId é passado corretamente
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              _buildDrawerItem(
-                  Icons.help, 'Ajuda', 
-                  context,
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TelaAjuda(isDarkMode: _isDarkMode)
-                  ),
-                ),
-              ),
-
-              _buildDrawerItem(
-                Icons.privacy_tip,
-                'Políticas de Privacidade',
-                context,
-                () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        TelaPoliticadeprivacidade(isDarkMode: _isDarkMode),
-                  ),
-                ),
-              ),
-              _buildDrawerItem(Icons.logout, 'Sair', context,
-                  () => _showLogoutDialog(context)),
-              const Divider(),
-              ListTile(
-                leading: Icon(
-                  Icons.dark_mode,
-                  color: _isDarkMode
-                      ? Colors.white
-                      : const Color.fromARGB(255, 27, 27, 27),
-                ),
-                title: Text(
-                  'Modo escuro',
-                  style: TextStyle(
-                    color: _isDarkMode
-                        ? Colors.white
-                        : const Color.fromARGB(255, 27, 27, 27),
-                  ),
-                ),
-                trailing: Switch(
-                  value: _isDarkMode,
-                  onChanged: (value) {
-                    _toggleTheme(value);
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+      drawer: Cdrawer(
+        isDarkMode: _isDarkMode, 
+        userId: userId, 
+        onThemeToggle: _toggleTheme, // Corrigido aqui
       ),
     );
   }
@@ -276,66 +168,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-
-  Widget _buildDrawerItem(
-    IconData icon,
-    String title,
-    BuildContext context,
-    VoidCallback onTap,
-  ) {
-    return ListTile(
-      leading: Icon(icon,
-          color: _isDarkMode
-              ? Colors.white
-              : const Color.fromARGB(255, 27, 27, 27)),
-      title: Text(
-        title,
-        style: TextStyle(
-            color: _isDarkMode
-                ? Colors.white
-                : const Color.fromARGB(255, 27, 27, 27)),
-      ),
-      onTap: onTap,
-    );
-  }
-
-
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Confirmar Logout"),
-          content: const Text("Você tem certeza que deseja sair?"),
-          actions: [
-            TextButton(
-              child: const Text("Cancelar"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-
-            ),
-            TextButton(
-              child: const Text("Sair"),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                try {
-                  await _authService.logoutUser();
-                  Navigator.of(context).pushReplacementNamed('/login');
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Erro ao fazer logout: $e'),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
-
