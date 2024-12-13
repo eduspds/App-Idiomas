@@ -114,7 +114,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         SliverToBoxAdapter(child: _buildChartArea()),
         const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
         SliverToBoxAdapter(child: _buildInfoArea()),
-        const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
+        const SliverToBoxAdapter(child: SizedBox(height: 32.0)),
         SliverToBoxAdapter(child: _buildDailyWord()),
       ],
     );
@@ -266,7 +266,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildDailyWord() {
     return Container(
-      margin: const EdgeInsets.only(top: 16.0),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -278,35 +277,49 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Column(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Palavra do Dia',
-            style: TextStyle(
+            "Palavra do Dia".toUpperCase(),
+            style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.grey,
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'SERENDPITY',
+          const SizedBox(height: 8),
+          const Text(
+            '"SERENDPITY"',
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
               color: Color(0xFFAF4B46),
             ),
           ),
-          SizedBox(height: 8),
-          Text(
-            'Descoberta feliz ou inesperada, feita por acaso.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black54,
+          const SizedBox(height: 8),
+          const Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: "Significado: ",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  )
+                ),
+                TextSpan(
+                  text: "Descoberta feliz ou inesperada, feita por acaso.",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontStyle: FontStyle.italic
+                  )
+                )
+              ]
             ),
-          ),
+            textAlign: TextAlign.center,
+          )
         ],
       ),
     );
