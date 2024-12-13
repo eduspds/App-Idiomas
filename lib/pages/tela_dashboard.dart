@@ -47,7 +47,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       appBar: _buildAppBar(),
       body: Row(
         children: [
-          _buildLateralMenu(),
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
