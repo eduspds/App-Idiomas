@@ -63,17 +63,17 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets: 
-  - lib/assets/Fluentifylogo.png
-  - lib/assets/Fluentifybg.png
-  - lib/assets/vetor.png 
-  - lib/assets/resc.png
-  - lib/assets/google_icon.png
-  - lib/assets/facebook_icon.png
-  - lib/assets/iniciobg.png
-  - lib/assets/darkbg.png
-  - lib/assets/SLIDE2.png
-  - lib/assets/CERTI.png
-  - lib/assets/METOD.png
+  - lib/assets/
+  # - lib/assets/Fluentifybg.png
+  # - lib/assets/vetor.png 
+  # - lib/assets/resc.png
+  # - lib/assets/google_icon.png
+  # - lib/assets/facebook_icon.png
+  # - lib/assets/iniciobg.png
+  # - lib/assets/darkbg.png
+  # - lib/assets/SLIDE2.png
+  # - lib/assets/CERTI.png
+  # - lib/assets/METOD.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

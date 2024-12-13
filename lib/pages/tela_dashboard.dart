@@ -113,6 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(child: _buildChartArea()),
+        const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
         SliverToBoxAdapter(child: _buildInfoArea()),
         const SliverToBoxAdapter(child: SizedBox(height: 16.0)),
         SliverToBoxAdapter(child: _buildDailyWord()),
@@ -127,7 +128,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         constraints: const BoxConstraints(
           minHeight: 69.0
         ),
-        margin: const EdgeInsets.only(bottom: 16.0),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -138,6 +138,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
           borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+        clipBehavior: Clip.hardEdge,
+        child: Image.asset(
+          'lib/assets/chart.png',
         ),
       ),
     );
