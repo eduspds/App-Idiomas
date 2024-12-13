@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_idiomas_1/Cubit/timer_cubit.dart';
@@ -148,16 +149,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildInfoArea() {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildPercentInfo(),
-        ),
-        const SizedBox(width: 16.0),
-        Expanded(
-          child: _buildVideoInfo()
-        ),
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Expanded(
+            child: _buildPercentInfo(),
+          ),
+          const SizedBox(width: 16.0),
+          Expanded(
+            child: _buildVideoInfo()
+          ),
+        ],
+      ),
     );
   }
 
@@ -189,6 +192,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             padding: const EdgeInsets.all(16.0),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
                   "DESEMPENHO ATUAL:",
@@ -242,24 +246,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildVideoInfo() {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        constraints: const BoxConstraints(
-          minHeight: 91.0
-        ),
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
+    return Container(
+      constraints: const BoxConstraints(
+        minHeight: 91.0,
+      ),
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            'lib/assets/flags_bg.png',
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: CupertinoButton(
+              onPressed: (){},
+              color: Colors.transparent,
+              padding: EdgeInsets.zero,
+              child: Container(
+                height: 50,
+                width: 50,
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  shape: BoxShape.circle
+                ),
+                child: const Icon(
+                  Icons.play_arrow,
+                ),
+              )
             ),
-          ],
-          borderRadius: BorderRadius.circular(12),
-        ),
+          )
+        ],
       ),
     );
   }
