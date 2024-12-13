@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_idiomas_1/Cubit/timer_cubit.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../services/auth_services.dart';
 import 'package:flutter_idiomas_1/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,24 +57,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               padding: const EdgeInsets.all(16.0),
-              // child: Column(
-              //   // crossAxisAlignment: CrossAxisAlignment.stretch,
-              //   children: [
-              //     Expanded(
-              //       flex: 2,
-              //       child: _buildChartArea(),
-              //     ),
-              //     Expanded(
-              //       flex: 1,
-              //       child: _buildInfoArea(),
-              //     ),
-              //     const SizedBox(height: 16.0),
-              //     Expanded(
-              //       flex: 1,
-              //       child: _buildDailyWord(),
-              //     ),
-              //   ],
-              // ),
               child: _buildScrollView(),
             ),
           ),
@@ -164,50 +147,116 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Row(
       children: [
         Expanded(
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              constraints: const BoxConstraints(
-                minHeight: 91.0
-              ),
-              margin: const EdgeInsets.only(right: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
+          child: _buildPercentInfo(),
         ),
+        const SizedBox(width: 16.0),
         Expanded(
-          child: GestureDetector(
-            onTap: () {},
-            child: Container(
-              constraints: const BoxConstraints(
-                minHeight: 91.0
-              ),
-              margin: const EdgeInsets.only(left: 8.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-          ),
+          child: _buildVideoInfo()
         ),
       ],
+    );
+  }
+
+  Widget _buildPercentInfo() {
+    return BlocBuilder<TimerCubit, int>(
+      bloc: _timerCubit,
+      builder: (context, currentMinutes) {
+        const total = 10;
+
+        int formattedMinutes = currentMinutes >= total ? total : currentMinutes;
+        double percentage = formattedMinutes/total;
+
+        return GestureDetector(
+          onTap: () {},
+          child: Container(
+            constraints: const BoxConstraints(
+              minHeight: 91.0
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Text(
+                  "DESEMPENHO ATUAL:",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                CircularPercentIndicator(
+                  radius: 32,
+                  lineWidth: 2.0,
+                  percent: percentage,
+                  progressColor: Colors.black,
+                  backgroundColor: Colors.transparent,
+                  center: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    margin: const EdgeInsets.all(2.0),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffd5a03e),
+                      shape: BoxShape.circle
+                    ),
+                    alignment: Alignment.center,
+                    child: Text(
+                      "${(percentage * 100).toInt()}%",
+                      style: const TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                Text(
+                  "$currentMinutes minuto${currentMinutes == 1 ? '': 's'}".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 15.0,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildVideoInfo() {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        constraints: const BoxConstraints(
+          minHeight: 91.0
+        ),
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 6,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
     );
   }
 
