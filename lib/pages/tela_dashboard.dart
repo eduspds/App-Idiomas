@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_idiomas_1/Cubit/timer_cubit.dart';
+import 'package:flutter_idiomas_1/pages/tela_videos.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import '../services/auth_services.dart';
 import 'package:flutter_idiomas_1/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -17,15 +17,12 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   late final GlobalKey<ScaffoldState> _scaffoldKey;
 
-  late final AuthService _authService;
   late final TimerCubit _timerCubit;
 
   @override
   void initState() {
     super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
-
-    _authService = AuthService();
 
     _timerCubit = BlocProvider.of(context);
   }
@@ -266,12 +263,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
         alignment: Alignment.center,
         children: [
           Image.asset(
-            'lib/assets/flags_bg.png',
+            'lib/assets/flags.png',
+          ),
+          const Positioned(
+            top: 16,
+            child: Text(
+              "SHORTS",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: CupertinoButton(
-              onPressed: (){},
+              onPressed: _openVideoScreen,
               color: Colors.transparent,
               padding: EdgeInsets.zero,
               child: Container(
@@ -352,4 +360,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+
+  void _openVideoScreen() => Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const VideosScreen(),
+    ),
+  );
 }
