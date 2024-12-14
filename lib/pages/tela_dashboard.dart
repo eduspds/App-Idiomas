@@ -8,7 +8,9 @@ import 'package:flutter_idiomas_1/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  final bool isDarkMode;
+
+  const DashboardScreen({super.key, required this.isDarkMode});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -16,23 +18,13 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late final GlobalKey<ScaffoldState> _scaffoldKey;
-
   late final TimerCubit _timerCubit;
 
   @override
   void initState() {
     super.initState();
     _scaffoldKey = GlobalKey<ScaffoldState>();
-
     _timerCubit = BlocProvider.of(context);
-  }
-
-  bool _isDarkMode = false;
-
-  void _toggleTheme(bool value) {
-    setState(() {
-      _isDarkMode = value;
-    });
   }
 
   @override
@@ -47,9 +39,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Expanded(
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('lib/assets/iniciobg.png'),
+                  image: AssetImage(widget.isDarkMode
+                      ? 'lib/assets/darkbg.png'
+                      : 'lib/assets/iniciobg.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -60,16 +54,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
       drawer: Cdrawer(
-        isDarkMode: _isDarkMode,
+        isDarkMode: widget.isDarkMode,
         userId: userId,
         onThemeToggle: _toggleTheme,
       ),
     );
   }
 
+  void _toggleTheme(bool value) {
+    setState(() {
+      widget.isDarkMode;
+    });
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: const Color(0xFFC44A45),
+      backgroundColor: widget.isDarkMode ? const Color(0xFFC44A45) : const Color(0xFFC44A45),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
@@ -77,11 +77,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         },
       ),
       elevation: 0,
-      title: const Text(
+      title: Text(
         'Meu Progresso',
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: widget.isDarkMode ? Colors.grey[300] : Colors.white,
         ),
       ),
     );
@@ -122,11 +122,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return GestureDetector(
       onTap: () {},
       child: Container(
-        constraints: const BoxConstraints(
-          minHeight: 69.0
-        ),
+        constraints: const BoxConstraints(minHeight: 69.0),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -153,9 +151,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: _buildPercentInfo(),
           ),
           const SizedBox(width: 16.0),
-          Expanded(
-            child: _buildVideoInfo()
-          ),
+          Expanded(child: _buildVideoInfo()),
         ],
       ),
     );
@@ -168,16 +164,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         const total = 10;
 
         int formattedMinutes = currentMinutes >= total ? total : currentMinutes;
-        double percentage = formattedMinutes/total;
+        double percentage = formattedMinutes / total;
 
         return GestureDetector(
           onTap: () {},
           child: Container(
-            constraints: const BoxConstraints(
-              minHeight: 91.0
-            ),
+            constraints: const BoxConstraints(minHeight: 91.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
@@ -191,12 +185,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   "DESEMPENHO ATUAL:",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                    color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
                   ),
                 ),
                 const SizedBox(height: 8.0),
@@ -204,34 +199,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   radius: 32,
                   lineWidth: 2.0,
                   percent: percentage,
-                  progressColor: Colors.black,
+                  progressColor: widget.isDarkMode ? Colors.white : Colors.black,
                   backgroundColor: Colors.transparent,
                   center: Container(
                     height: double.infinity,
                     width: double.infinity,
                     margin: const EdgeInsets.all(2.0),
-                    decoration: const BoxDecoration(
-                      color: Color(0xffd5a03e),
-                      shape: BoxShape.circle
+                    decoration: BoxDecoration(
+                      color: widget.isDarkMode
+                          ? Colors.grey[700]
+                          : const Color(0xffd5a03e),
+                      shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
                     child: Text(
                       "${(percentage * 100).toInt()}%",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
+                        color: widget.isDarkMode ? Colors.grey[300] : Colors.white,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  "$currentMinutes minuto${currentMinutes == 1 ? '': 's'}".toUpperCase(),
+                  "$currentMinutes minuto${currentMinutes == 1 ? '' : 's'}".toUpperCase(),
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15.0,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                    color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
                   ),
                 ),
               ],
@@ -244,12 +242,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildVideoInfo() {
     return Container(
-      constraints: const BoxConstraints(
-        minHeight: 91.0,
-      ),
+      constraints: const BoxConstraints(minHeight: 91.0),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -265,14 +261,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Image.asset(
             'lib/assets/flags.png',
           ),
-          const Positioned(
+          Positioned(
             top: 16,
             child: Text(
               "SHORTS",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15.0,
-                fontWeight: FontWeight.bold
+                fontWeight: FontWeight.bold,
+                color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
               ),
             ),
           ),
@@ -287,14 +284,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 width: 50,
                 decoration: const BoxDecoration(
                   color: Colors.black,
-                  shape: BoxShape.circle
+                  shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.play_arrow,
                 ),
-              )
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -303,7 +300,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildDailyWord() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -319,23 +316,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Text(
             "Palavra do Dia".toUpperCase(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: Colors.grey,
+              color: widget.isDarkMode ? Colors.white : Colors.grey,
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
+          Text(
             '"SERENDPITY"',
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: Color(0xFFAF4B46),
+              color: widget.isDarkMode ? const Color(0xFFAF4B46) : const Color(0xFFAF4B46),
             ),
           ),
           const SizedBox(height: 8),
-          const Text.rich(
+           Text.rich(
             TextSpan(
               children: [
                 TextSpan(
@@ -343,28 +340,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                  )
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
                 TextSpan(
                   text: "Descoberta feliz ou inesperada, feita por acaso.",
                   style: TextStyle(
                     fontSize: 14,
-                    fontStyle: FontStyle.italic
-                  )
-                )
-              ]
+                    fontStyle: FontStyle.italic,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+              ],
             ),
             textAlign: TextAlign.center,
-          )
+          ),
         ],
       ),
     );
   }
 
   void _openVideoScreen() => Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => const VideosScreen(),
-    ),
-  );
+        context,
+        MaterialPageRoute(
+          builder: (context) => const VideosScreen(),
+        ),
+      );
 }

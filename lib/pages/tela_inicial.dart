@@ -13,9 +13,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   bool _isDarkMode = false;
+
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeUser();
+  }
+
+  // Função para carregar o usuário de forma assíncrona
+  Future<void> _initializeUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      _user = user;
+    });
+  }
 
   void _toggleTheme(bool value) {
     setState(() {
@@ -25,11 +39,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = FirebaseAuth.instance.currentUser;
-    final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
+    // Verifica se o usuário foi carregado
+    if (_user == null) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    final String userId = _user?.uid ?? '';
 
     return Scaffold(
-      key: _scaffoldKey,
       body: Row(
         children: [
           Container(
@@ -39,11 +58,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                IconButton(
-                  icon: const Icon(Icons.menu, color: Colors.white),
-                  onPressed: () {
-                    _scaffoldKey.currentState!.openDrawer();
-                  },
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: const Icon(Icons.menu, color: Colors.white),
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -104,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const DashboardScreen(),
+                          builder: (context) => DashboardScreen(isDarkMode: _isDarkMode),
                         ),
                       ),
                     ),
@@ -127,15 +148,14 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Cdrawer(
-        isDarkMode: _isDarkMode, 
-        userId: userId, 
-        onThemeToggle: _toggleTheme, // Corrigido aqui
+        isDarkMode: _isDarkMode,
+        userId: userId,
+        onThemeToggle: _toggleTheme,
       ),
     );
   }
 
-  Widget _buildButton(
-      BuildContext context, String text, VoidCallback onPressed) {
+  Widget _buildButton(BuildContext context, String text, VoidCallback onPressed) {
     final Size screenSize = MediaQuery.of(context).size;
     return Container(
       width: screenSize.width * 0.8,
