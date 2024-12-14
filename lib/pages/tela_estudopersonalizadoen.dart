@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EstudoPersonalizadoEN extends StatefulWidget {
-  final String currentLevel; 
-  final bool isDarkMode; 
+  final String currentLevel;
+  final bool isDarkMode;
 
   const EstudoPersonalizadoEN({
     Key? key,
@@ -17,16 +17,13 @@ class EstudoPersonalizadoEN extends StatefulWidget {
 
 class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
   int currentQuestionIndex = 0;
-  int currentLevelIndex = 0; 
-  List<Map<String, dynamic>>?
-      customLevelQuestions; 
-  int totalScore = 0; 
+  int currentLevelIndex = 0;
+  List<Map<String, dynamic>>? customLevelQuestions;
+  int totalScore = 0;
   TextEditingController answerController = TextEditingController();
-  FocusNode answerFocusNode =
-      FocusNode(); 
+  FocusNode answerFocusNode = FocusNode();
   late String currentLevel;
 
-  
   Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
       {
@@ -270,8 +267,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
         currentQuestionIndex++;
       } else if (currentLevelIndex < levels.keys.length - 1) {
         currentLevelIndex++;
-        currentLevel =
-            levels.keys.toList()[currentLevelIndex]; 
+        currentLevel = levels.keys.toList()[currentLevelIndex];
         customLevelQuestions = _getQuestionsForLevel(currentLevel);
         currentQuestionIndex = 0;
       } else {
@@ -340,11 +336,11 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title: Text(
           'Personalized Study',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: isDarkMode ? Colors.white : Colors.white,
           ),
         ),
       ),
@@ -358,15 +354,14 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
           ),
           SingleChildScrollView(
             child: Padding(
-              padding:
-                  EdgeInsets.all(screenSize.width * 0.05), 
+              padding: EdgeInsets.all(screenSize.width * 0.05),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     child: Image.asset(
                       'lib/assets/Fluentifylogo.png',
-                      width: screenSize.width * 0.5, 
+                      width: screenSize.width * 0.5,
                       height: screenSize.width * 0.5,
                       fit: BoxFit.contain,
                     ),
