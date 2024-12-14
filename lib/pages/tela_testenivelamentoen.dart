@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'tela_estudopersonalizadoen.dart';
 
-
 class TelaTesteNivelamentoEN extends StatefulWidget {
   final bool isDarkMode;
 
@@ -457,34 +456,35 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Image.asset(
-              isDarkMode ? 'lib/assets/darkbg.png' : 'lib/assets/iniciobg.png',
-              fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.asset(
+                _isDarkMode
+                    ? 'lib/assets/darkbg.png'
+                    : 'lib/assets/iniciobg.png',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          SingleChildScrollView(
-            child: Center(
+            Center(
               child: Padding(
-                padding: EdgeInsets.all(screenSize.width * 0.05),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       width: screenSize.width * 0.6,
                       child: Image.asset(
                         'lib/assets/Fluentifylogo.png',
-                        width: screenSize.width * 0.5,
-                      height: screenSize.width * 0.5,
+                        width: 180,
+                        height: 180,
                         fit: BoxFit.contain,
                       ),
                     ),
-                    SizedBox(height: screenSize.height * 0.02),
+                    const SizedBox(height: 20),
                     Container(
-                      padding: EdgeInsets.all(screenSize.width * 0.04),
+                      padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
                         color: isDarkMode ? Colors.grey[800] : Colors.white,
                         borderRadius: BorderRadius.circular(15),
@@ -497,17 +497,17 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                           Text(
                             'Question ${currentQuestionIndex + 1} of ${currentLevelQuestions!.length}',
                             style: TextStyle(
-                                fontSize: screenSize.width * 0.04,
+                                fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color:
                                     isDarkMode ? Colors.white : Colors.black),
                           ),
-                          SizedBox(height: screenSize.height * 0.01),
+                          const SizedBox(height: 10),
                           Text(
                             currentLevelQuestions![currentQuestionIndex]
                                 ['question'],
                             style: TextStyle(
-                                fontSize: screenSize.width * 0.045,
+                                fontSize: 18,
                                 color:
                                     isDarkMode ? Colors.white : Colors.black),
                             textAlign: TextAlign.center,
@@ -515,7 +515,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                         ],
                       ),
                     ),
-                    SizedBox(height: screenSize.height * 0.03),
+                    const SizedBox(height: 20),
                     TextField(
                       controller: answerController,
                       focusNode: _focusNode,
@@ -533,7 +533,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                         _submitAnswer();
                       },
                     ),
-                    SizedBox(height: screenSize.height * 0.03),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _submitAnswer,
                       style: ElevatedButton.styleFrom(
@@ -551,8 +551,8 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoEN> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

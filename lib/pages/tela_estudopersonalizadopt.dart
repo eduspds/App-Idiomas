@@ -4,11 +4,8 @@ class EstudoPersonalizadoPage extends StatefulWidget {
   final String currentLevel;
   final bool isDarkMode;
 
-  const EstudoPersonalizadoPage({
-    Key? key,
-    required this.isDarkMode,
-    required this.currentLevel,
-  }) : super(key: key);
+  const EstudoPersonalizadoPage(
+      {super.key, required this.isDarkMode, required this.currentLevel});
 
   @override
   _EstudoPersonalizadoPageState createState() =>
@@ -16,13 +13,11 @@ class EstudoPersonalizadoPage extends StatefulWidget {
 }
 
 class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
-  int currentQuestionIndex = 0;
-  int currentLevelIndex = 0;
+  int currentQuestionIndex = 0; // Índice da pergunta
   List<Map<String, dynamic>>? customLevelQuestions;
-  int totalScore = 0;
+  int totalScore = 0; // Pontuação total do usuário
   TextEditingController answerController = TextEditingController();
   FocusNode answerFocusNode = FocusNode();
-  late String currentLevel;
 
   Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
@@ -210,27 +205,10 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
     });
   }
 
-  int _getLevelIndex(String level) {
-    switch (level) {
-      case 'A1':
-        return 0;
-      case 'A2':
-        return 1;
-      case 'B1':
-        return 2;
-      case 'B2':
-        return 3;
-      case 'C1':
-        return 4;
-      case 'C2':
-        return 5;
-      default:
-        return 0;
-    }
-  }
-
+  // Função para retornar as perguntas baseadas no nível de proficiência
   List<Map<String, dynamic>> _getQuestionsForLevel(String level) {
     List<Map<String, dynamic>> questions = [];
+    // Adicionar perguntas com base no nível
     switch (level) {
       case 'A1':
         questions.addAll(levels['A1']!);
@@ -263,14 +241,12 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
     }
 
     setState(() {
-      if (currentQuestionIndex < customLevelQuestions!.length - 1) {
-        currentQuestionIndex++;
-      } else if (currentLevelIndex < levels.keys.length - 1) {
-        currentLevelIndex++;
-        currentLevel = levels.keys.toList()[currentLevelIndex];
-        customLevelQuestions = _getQuestionsForLevel(currentLevel);
-        currentQuestionIndex = 0;
-      } else {
+      currentQuestionIndex++;
+      answerController.clear(); // Limpa o campo após a resposta
+      FocusScope.of(context)
+          .requestFocus(answerFocusNode); // Foca novamente no campo de resposta
+
+      if (currentQuestionIndex >= customLevelQuestions!.length - 1) {
         showDialog(
           context: context,
           builder: (context) {
@@ -289,10 +265,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                     Navigator.pop(context);
                     setState(() {
                       totalScore = 0;
-                      currentLevelIndex = _getLevelIndex(widget.currentLevel);
                       currentQuestionIndex = 0;
-                      customLevelQuestions =
-                          _getQuestionsForLevel(widget.currentLevel);
                     });
                   },
                   child: Text('Reiniciar',
@@ -314,8 +287,6 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
           },
         );
       }
-      answerController.clear();
-      FocusScope.of(context).requestFocus(answerFocusNode);
     });
   }
 
@@ -337,7 +308,8 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
           'Estudo Personalizado',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: isDarkMode ? Colors.white : Colors.white,
+            color:
+                isDarkMode ? Colors.white : Colors.white, // Cor ajustada aqui
           ),
         ),
       ),
@@ -345,36 +317,39 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              isDarkMode ? 'lib/assets/darkbg.png' : 'lib/assets/iniciobg.png',
+              isDarkMode
+                  ? 'lib/assets/darkbg.png' // Imagem de fundo para modo escuro
+                  : 'lib/assets/iniciobg.png', // Imagem de fundo para modo claro
               fit: BoxFit.cover,
             ),
           ),
-          SingleChildScrollView(
+          Center(
             child: Padding(
-              padding: EdgeInsets.all(screenSize.width * 0.05),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
+                    width: screenSize.width * 0.6,
                     child: Image.asset(
                       'lib/assets/Fluentifylogo.png',
-                      width: screenSize.width * 0.5,
-                      height: screenSize.width * 0.5,
+                      width: 180,
+                      height: 180,
                       fit: BoxFit.contain,
                     ),
                   ),
-                  SizedBox(height: screenSize.height * 0.02),
+                  const SizedBox(height: 10),
                   Text(
                     'Nível: ${widget.currentLevel}',
                     style: TextStyle(
-                      fontSize: screenSize.width * 0.05,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(height: screenSize.height * 0.03),
+                  const SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.all(screenSize.width * 0.05),
+                    padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: isDarkMode ? Colors.grey[800] : Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -387,23 +362,23 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                         Text(
                           'Pergunta ${currentQuestionIndex + 1} de ${customLevelQuestions!.length}',
                           style: TextStyle(
-                              fontSize: screenSize.width * 0.04,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: isDarkMode ? Colors.white : Colors.black),
                         ),
-                        SizedBox(height: screenSize.height * 0.02),
+                        const SizedBox(height: 10),
                         Text(
                           customLevelQuestions![currentQuestionIndex]
                               ['question'],
                           style: TextStyle(
-                              fontSize: screenSize.width * 0.045,
+                              fontSize: 18,
                               color: isDarkMode ? Colors.white : Colors.black),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: screenSize.height * 0.03),
+                  const SizedBox(height: 20),
                   TextField(
                     controller: answerController,
                     decoration: InputDecoration(
@@ -416,15 +391,10 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                     ),
                     style: TextStyle(
                         color: isDarkMode ? Colors.white : Colors.black),
-                    onSubmitted: (_) {
-                      handleSubmit();
-                    },
                   ),
-                  SizedBox(height: screenSize.height * 0.03),
+                  const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: handleSubmit,
-                    child: Text('Enviar'),
-                    /*() {
+                    onPressed: () {
                       if (answerController.text.toLowerCase() ==
                           customLevelQuestions![currentQuestionIndex]['answer']
                               .toLowerCase()) {
@@ -504,7 +474,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
                           : 'Próxima Pergunta',
                       style: TextStyle(
                           color: isDarkMode ? Colors.white : Colors.black),
-                    ),*/
+                    ),
                   ),
                 ],
               ),

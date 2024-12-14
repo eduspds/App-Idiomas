@@ -248,6 +248,7 @@ class _QuestionsScreenState extends State<QuestionsScreenPT> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: const Text('Finalizar',
                     style: TextStyle(color: Colors.black)),

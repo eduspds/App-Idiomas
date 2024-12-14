@@ -252,6 +252,7 @@ class _QuestionsScreenState extends State<QuestionsScreenEN> {
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
+                  Navigator.pop(context);
                 },
                 child: const Text(
                   'Finish',
@@ -266,7 +267,7 @@ class _QuestionsScreenState extends State<QuestionsScreenEN> {
       setState(() {
         showFeedback = true;
       });
-      _focusNode.requestFocus();
+      _focusNode.requestFocus(); // Foco no TextField novamente
     }
   }
 

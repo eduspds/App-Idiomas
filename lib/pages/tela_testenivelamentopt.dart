@@ -393,12 +393,13 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
     ],
   };
 
-  int totalScore = 0;
-  int currentQuestionIndex = 0;
-  List<Map<String, dynamic>>? currentLevelQuestions;
-  TextEditingController answerController = TextEditingController();
-  FocusNode _focusNode = FocusNode();
-  String currentLevel = '';
+  int totalScore = 0; // Pontuação total
+  int currentQuestionIndex = 0; // Índice da pergunta atual
+  List<Map<String, dynamic>>? currentLevelQuestions; // Perguntas do nível atual
+  TextEditingController answerController =
+      TextEditingController(); // Controlador para a resposta
+
+  String currentLevel = ''; // Variável para armazenar o nível de proficiência
 
   String getNivelDeProficiencia() {
     if (totalScore >= 0 && totalScore < 50) {
@@ -461,7 +462,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final isDarkMode = widget.isDarkMode;
+    final isDarkMode = widget.isDarkMode; // Verifica o tema
 
     return Scaffold(
       appBar: AppBar(
@@ -500,8 +501,8 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                       width: screenSize.width * 0.6,
                       child: Image.asset(
                         'lib/assets/Fluentifylogo.png',
-                        width: screenSize.width * 0.5,
-                        height: screenSize.width * 0.5,
+                        width: 180,
+                        height: 180,
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -541,7 +542,6 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                     SizedBox(height: screenSize.height * 0.03),
                     TextField(
                       controller: answerController,
-                      focusNode: _focusNode,
                       style: TextStyle(
                           color: isDarkMode ? Colors.white : Colors.black),
                       decoration: InputDecoration(
@@ -555,93 +555,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                     ),
                     SizedBox(height: screenSize.height * 0.03),
                     ElevatedButton(
-                      onPressed: _submitAnswer,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            const Color.fromARGB(255, 255, 255, 255),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 12, horizontal: 30),
-                      ),
-                      child: Text(currentQuestionIndex ==
-                              currentLevelQuestions!.length - 1
-                          ? 'Finalizar'
-                          : 'Próxima Questão'),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _submitAnswer() {
-    if (answerController.text.toLowerCase() ==
-        currentLevelQuestions![currentQuestionIndex]['answer'].toLowerCase()) {
-      setState(() {
-        totalScore +=
-            (currentLevelQuestions![currentQuestionIndex]['points'] as num)
-                .toInt();
-      });
-    }
-
-    setState(() {
-      if (currentQuestionIndex < currentLevelQuestions!.length - 1) {
-        currentQuestionIndex++;
-      } else {
-        String nivel = getNivelDeProficiencia();
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text('Resultado'),
-              content: Text(
-                  'Seu nível de proficiência é: $nivel\nScore: $totalScore'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    setState(() {
-                      totalScore = 0;
-                      currentQuestionIndex = 0;
-                    });
-                  },
-                  child: const Text('Reiniciar'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EstudoPersonalizadoPage(
-                          currentLevel: currentLevel,
-                          isDarkMode: _isDarkMode,
-                        ),
-                      ),
-                    );
-                  },
-                  child: const Text('Estudo Personalizado'),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    });
-
-    answerController.clear();
-    _focusNode.requestFocus();
-  }
-}                   
-
- /*
-                      )
-                        const 
-                      )
-                      onPressed: /*() {
+                      onPressed: () {
                         if (answerController.text.toLowerCase() ==
                             currentLevelQuestions![currentQuestionIndex]
                                     ['answer']
@@ -713,7 +627,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                         currentQuestionIndex ==
                                 currentLevelQuestions!.length - 1
                             ? 'Finalizar'
-                            : 'Próxima Pergunta',*/
+                            : 'Próxima Pergunta',
                         style: TextStyle(fontSize: screenSize.width * 0.04),
                       ),
                     ),
@@ -726,4 +640,4 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
       ),
     );
   }
-}*/
+}
