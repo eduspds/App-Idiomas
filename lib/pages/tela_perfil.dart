@@ -8,10 +8,10 @@ class TelaPerfil extends StatefulWidget {
   const TelaPerfil({super.key, required this.userId, required this.isDarkMode});
 
   @override
-  _TelaPerfil createState() => _TelaPerfil();
+  TelaPerfilState  createState() => TelaPerfilState ();
 }
 
-class _TelaPerfil extends State<TelaPerfil> {
+class TelaPerfilState  extends State<TelaPerfil> {
   final TextEditingController _nomeCompletoController = TextEditingController();
   final TextEditingController _nomeUsuarioController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -154,7 +154,7 @@ class _TelaPerfil extends State<TelaPerfil> {
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: Colors.black26,
                       blurRadius: 8,

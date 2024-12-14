@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaTesteNivelamentoPT extends StatefulWidget {
   final bool isDarkMode;
-  final ProgressService _progressService = ProgressService();
 
   TelaTesteNivelamentoPT({super.key, required this.isDarkMode});
 
@@ -425,12 +424,20 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
 
   void saveUserProgress() async {
     final User? user = FirebaseAuth.instance.currentUser;
-    final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
-    String level = getNivelDeProficiencia();
-    int score = totalScore;
+    final String userId = user?.uid ?? ''; 
+    String level = getNivelDeProficiencia(); // Obtém o nível do usuário
+    int score = totalScore; 
 
     try {
-      await ProgressService().saveProgress(userId, level, score);
+      // Salvar o progresso
+      await ProgressService().saveCustomStudyProgress(
+        userId,
+        level,
+        currentQuestionIndex, 
+        score, // Pontuação total
+        'PT', // Idioma salvo
+      );
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Progresso salvo com sucesso!')),
@@ -444,6 +451,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
       }
     }
   }
+
 
   @override
   void initState() {
@@ -572,7 +580,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                           currentQuestionIndex++;
                         } else {
                           String nivel = getNivelDeProficiencia();
-                          saveUserProgress();
+                          saveUserProgress(); // Salva o progresso
                           showDialog(
                             context: context,
                             builder: (context) {

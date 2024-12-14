@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_idiomas_1/services/progress_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EstudoPersonalizadoEN extends StatefulWidget {
   final String currentLevel;
@@ -204,6 +206,58 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
     customLevelQuestions = _getQuestionsForLevel(widget.currentLevel);
   }
 
+    // Salvamento de progresso
+  void _loadCustomStudyProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+    
+    if (user != null) {
+      try {
+        final progress = await ProgressService().loadCustomStudyProgress(
+          user.uid, 
+          widget.currentLevel,
+          'EN', // IDIOMA
+        );
+
+        if (progress != null) {
+          setState(() {
+            currentQuestionIndex = progress['questionsAnswered'] ?? 0;
+            totalScore = progress['totalScore'] ?? 0;
+          });
+        } else {
+          print('Nenhum progresso encontrado para o nível ${widget.currentLevel} no idioma PT.');
+        }
+      } catch (e) {
+        print('Erro ao carregar o progresso: $e');
+      }
+    } else {
+      print('Usuário não está autenticado.');
+    }
+  }
+
+
+
+  void _saveProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await ProgressService().saveCustomStudyProgress(
+          user.uid,
+          widget.currentLevel,
+          currentQuestionIndex,
+          totalScore,
+          'EN', // IDIOMA
+        );
+
+        print('Progresso salvo com sucesso!');
+      } catch (e) {
+        print('Erro ao salvar o progresso: $e');
+      }
+    } else {
+      print('Usuário não está autenticado.');
+    }
+  }
+
   // Função para retornar as perguntas baseadas no nível de proficiência
   List<Map<String, dynamic>> _getQuestionsForLevel(String level) {
     List<Map<String, dynamic>> questions = [];
@@ -348,6 +402,7 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                         currentQuestionIndex++;
                         if (currentQuestionIndex >=
                             customLevelQuestions!.length) {
+                            _saveProgress(); // Salva o progresso final
                           // Se o estudo for finalizado
                           showDialog(
                             context: context,
@@ -401,6 +456,8 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoEN> {
                               );
                             },
                           );
+                        } else  {
+                          _saveProgress(); // Salva o progresso ao mudar de pergunta
                         }
                       });
                     },

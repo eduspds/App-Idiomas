@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_idiomas_1/services/progress_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EstudoPersonalizadoPage extends StatefulWidget {
   final String currentLevel;
@@ -197,8 +199,61 @@ class _EstudoPersonalizadoPageState extends State<EstudoPersonalizadoPage> {
   @override
   void initState() {
     super.initState();
+    _loadCustomStudyProgress();
     // Filtrar as perguntas com base no nível de proficiência
     customLevelQuestions = _getQuestionsForLevel(widget.currentLevel);
+  }
+
+  // Salvamento de progresso
+  void _loadCustomStudyProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+    
+    if (user != null) {
+      try {
+        final progress = await ProgressService().loadCustomStudyProgress(
+          user.uid, 
+          widget.currentLevel,
+          'PT', // IDIOMA
+        );
+
+        if (progress != null) {
+          setState(() {
+            currentQuestionIndex = progress['questionsAnswered'] ?? 0;
+            totalScore = progress['totalScore'] ?? 0;
+          });
+        } else {
+          print('Nenhum progresso encontrado para o nível ${widget.currentLevel} no idioma PT.');
+        }
+      } catch (e) {
+        print('Erro ao carregar o progresso: $e');
+      }
+    } else {
+      print('Usuário não está autenticado.');
+    }
+  }
+
+
+
+  void _saveProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      try {
+        await ProgressService().saveCustomStudyProgress(
+          user.uid,
+          widget.currentLevel,
+          currentQuestionIndex,
+          totalScore,
+          'PT', // IDIOMA
+        );
+
+        print('Progresso salvo com sucesso!');
+      } catch (e) {
+        print('Erro ao salvar o progresso: $e');
+      }
+    } else {
+      print('Usuário não está autenticado.');
+    }
   }
 
   // Função para retornar as perguntas baseadas no nível de proficiência
@@ -342,6 +397,7 @@ Widget build(BuildContext context) {
                       currentQuestionIndex++;
                       if (currentQuestionIndex >=
                           customLevelQuestions!.length) {
+                            _saveProgress(); // Salva o progresso final
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -396,6 +452,8 @@ Widget build(BuildContext context) {
                             );
                           },
                         );
+                      } else {
+                        _saveProgress(); // Salva o progresso ao mudar de pergunta
                       }
                     });
                   },

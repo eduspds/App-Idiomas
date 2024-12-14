@@ -1,38 +1,60 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 class ProgressService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Método para salvar o progresso no Firebase
-  Future<void> saveProgress(String userId, String level, int score) async {
+  // Método para salvar o progresso do estudo 
+  Future<void> saveCustomStudyProgress(
+    String userId,
+    String level,
+    int questionsAnswered,
+    int totalScore,
+    String language, 
+  ) async {
     try {
-      await _firestore.collection('progress').doc(userId).set({
-        'level': level,
-        'score': score,
+      // Acesse a coleção do idioma e documento para o nível
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('customStudyProgress_$language') // Coleção por idioma
+          .doc(level) // Documento por nível (A1, A2, etc.)
+          .set({
+        'questionsAnswered': questionsAnswered,
+        'totalScore': totalScore,
         'timestamp': FieldValue.serverTimestamp(),
       });
-      const SnackBar(content: Text('Progresso salvo com sucesso!'));
+
+      print('Progresso do estudo personalizado salvo com sucesso!');
     } catch (e) {
-      SnackBar(content: Text('Erro ao salvar progresso: $e'));
+      print('Erro ao salvar progresso do estudo personalizado: $e');
     }
   }
 
-  // Método para carregar o progresso do Firebase
-  Future<Map<String, dynamic>?> loadProgress(String userId) async {
+  // Método para carregar o progresso do estudo personalizado
+  Future<Map<String, dynamic>?> loadCustomStudyProgress(
+      String userId,
+      String level,
+      String language,
+  ) async {
     try {
-      DocumentSnapshot snapshot =
-          await _firestore.collection('progress').doc(userId).get();
+      // Acesse a coleção com o idioma, dentro da coleção de usuários
+      DocumentSnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('customStudyProgress_$language')  // Coleção por idioma
+          .doc(level)  // Documento por nível (A1, A2, etc.)
+          .get();  // Pega o documento de progresso específico para o nível
 
       if (snapshot.exists) {
         return snapshot.data() as Map<String, dynamic>;
       } else {
-        SnackBar(content: Text('Nenhum progresso encontrado para o usuário $userId.'));
+        print('Nenhum progresso encontrado para o nível $level no idioma $language.');
         return null;
       }
     } catch (e) {
-      SnackBar(content: Text('Erro ao carregar progresso: $e'));
+      print('Erro ao carregar progresso do estudo personalizado: $e');
       return null;
     }
   }
+
 }

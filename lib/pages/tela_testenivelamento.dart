@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'tela_estudopersonalizado.dart';
+import 'package:flutter_idiomas_1/services/progress_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaTesteNivelamento extends StatefulWidget {
   @override
@@ -408,6 +410,36 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
     }
   }
 
+  void saveUserProgress() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user?.uid ?? ''; 
+    String level = getNivelDeProficiencia(); // Obtém o nível do usuário
+    int score = totalScore; 
+
+    try {
+      // Salvar o progresso
+      await ProgressService().saveCustomStudyProgress(
+        userId,
+        level,
+        currentQuestionIndex, 
+        score, // Pontuação total
+        'EN', // Idioma salvo
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Progresso salvo com sucesso!')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar progresso: $e')),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -526,6 +558,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamento> {
                         } else {
                           // Se for a última pergunta, exibe o resultado
                           String nivel = getNivelDeProficiencia();
+                          saveUserProgress(); // Salva o progresso
                           showDialog(
                             context: context,
                             builder: (context) {
