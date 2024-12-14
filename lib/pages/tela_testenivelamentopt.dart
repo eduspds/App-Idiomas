@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'tela_estudopersonalizadopt.dart';
+import 'package:flutter_idiomas_1/services/progress_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class TelaTesteNivelamentoPT extends StatefulWidget {
-   final bool isDarkMode;
+  final bool isDarkMode;
+  final ProgressService _progressService = ProgressService();
 
-  const TelaTesteNivelamentoPT({super.key, required this.isDarkMode});
+  TelaTesteNivelamentoPT({super.key, required this.isDarkMode});
 
   @override
   _TelaTesteNivelamentoState createState() => _TelaTesteNivelamentoState();
 }
 
-
 class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
-   bool _isDarkMode = false;
+  bool _isDarkMode = false;
 
   void _toggleTheme(bool value) {
     setState(() {
       _isDarkMode = value;
     });
   }
-  
+
   final Map<String, List<Map<String, dynamic>>> levels = {
     'A1': [
       {
@@ -421,7 +423,28 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
     }
   }
 
- 
+  void saveUserProgress() async {
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String userId = user?.uid ?? ''; // Obtém o UID do usuário logado
+    String level = getNivelDeProficiencia();
+    int score = totalScore;
+
+    try {
+      await ProgressService().saveProgress(userId, level, score);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Progresso salvo com sucesso!')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao salvar progresso: $e')),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -439,7 +462,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final isDarkMode = widget.isDarkMode;// Verifica o tema
+    final isDarkMode = widget.isDarkMode; // Verifica o tema
 
     return Scaffold(
       appBar: AppBar(
@@ -503,7 +526,8 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                         ),
                         const SizedBox(height: 10),
                         Text(
-                          currentLevelQuestions![currentQuestionIndex]['question'],
+                          currentLevelQuestions![currentQuestionIndex]
+                              ['question'],
                           style: TextStyle(
                               fontSize: 18,
                               color: isDarkMode ? Colors.white : Colors.black),
@@ -520,8 +544,8 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                         color: isDarkMode ? Colors.white : Colors.black),
                     decoration: InputDecoration(
                       labelText: 'Sua resposta',
-                      labelStyle:
-                          TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                      labelStyle: TextStyle(
+                          color: isDarkMode ? Colors.white : Colors.black),
                       border: const OutlineInputBorder(),
                       filled: true,
                       fillColor: isDarkMode ? Colors.grey[850] : Colors.white,
@@ -532,19 +556,23 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                   ElevatedButton(
                     onPressed: () {
                       if (answerController.text.toLowerCase() ==
-                          currentLevelQuestions![currentQuestionIndex]['answer'].toLowerCase()) {
+                          currentLevelQuestions![currentQuestionIndex]['answer']
+                              .toLowerCase()) {
                         setState(() {
                           totalScore +=
-                              (currentLevelQuestions![currentQuestionIndex]['points'] as num)
+                              (currentLevelQuestions![currentQuestionIndex]
+                                      ['points'] as num)
                                   .toInt();
                         });
                       }
 
                       setState(() {
-                        if (currentQuestionIndex < currentLevelQuestions!.length - 1) {
+                        if (currentQuestionIndex <
+                            currentLevelQuestions!.length - 1) {
                           currentQuestionIndex++;
                         } else {
                           String nivel = getNivelDeProficiencia();
+                          saveUserProgress();
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -570,7 +598,10 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              EstudoPersonalizadoPage(currentLevel: currentLevel, isDarkMode: _isDarkMode,),
+                                              EstudoPersonalizadoPage(
+                                            currentLevel: currentLevel,
+                                            isDarkMode: _isDarkMode,
+                                          ),
                                         ),
                                       );
                                     },
@@ -585,9 +616,11 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 30),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 30),
                     ),
-                    child: Text(currentQuestionIndex == currentLevelQuestions!.length - 1
+                    child: Text(currentQuestionIndex ==
+                            currentLevelQuestions!.length - 1
                         ? 'Finalizar'
                         : 'Próxima Pergunta'),
                   ),
