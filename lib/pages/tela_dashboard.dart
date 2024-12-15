@@ -363,7 +363,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void _openVideoScreen() => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const VideosScreen(),
+          builder: (context) => VideoPlayerScreen(),
         ),
       );
 }

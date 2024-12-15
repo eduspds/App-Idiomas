@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.20.1
   percent_indicator: ^4.2.4
   youtube_player_flutter: ^9.1.1
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +76,8 @@ flutter:
   # - lib/assets/SLIDE2.png
   # - lib/assets/CERTI.png
   # - lib/assets/METOD.png
+  # - lib/assets/Ingles1.mp4
+  # - lib/assets/Portugues1.mp4
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
