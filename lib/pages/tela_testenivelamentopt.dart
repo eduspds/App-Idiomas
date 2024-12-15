@@ -422,36 +422,20 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
     }
   }
 
-  void saveUserProgress() async {
-    final User? user = FirebaseAuth.instance.currentUser;
-    final String userId = user?.uid ?? ''; 
-    String level = getNivelDeProficiencia(); // Obtém o nível do usuário
-    int score = totalScore; 
-
-    try {
-      // Salvar o progresso
+  // Método para salvar o progresso
+  void _saveTestProgress() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
       await ProgressService().saveCustomStudyProgress(
-        userId,
-        level,
-        currentQuestionIndex, 
-        score, // Pontuação total
-        'PT', // Idioma salvo
+        user.uid,
+        currentLevel,
+        currentQuestionIndex,
+        totalScore,
+        'PT', // Idioma
+        'testeNivelamento', // Tipo de progresso
       );
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Progresso salvo com sucesso!')),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Erro ao salvar progresso: $e')),
-        );
-      }
     }
   }
-
 
   @override
   void initState() {
@@ -580,7 +564,7 @@ class _TelaTesteNivelamentoState extends State<TelaTesteNivelamentoPT> {
                           currentQuestionIndex++;
                         } else {
                           String nivel = getNivelDeProficiencia();
-                          saveUserProgress(); // Salva o progresso
+                          _saveTestProgress(); // Salva o progresso
                           showDialog(
                             context: context,
                             builder: (context) {

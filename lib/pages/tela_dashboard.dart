@@ -6,11 +6,14 @@ import 'package:flutter_idiomas_1/pages/tela_videos.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:flutter_idiomas_1/widgets/drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_idiomas_1/services/progress_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   final bool isDarkMode;
+  final String userId;
+  final String language;
 
-  const DashboardScreen({super.key, required this.isDarkMode});
+  const DashboardScreen({super.key, required this.isDarkMode, required this.userId, required this.language});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -19,13 +22,46 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   late final GlobalKey<ScaffoldState> _scaffoldKey;
   late final TimerCubit _timerCubit;
+  String? _currentLevel;
 
   @override
   void initState() {
     super.initState();
+    _loadUserLevel();
     _scaffoldKey = GlobalKey<ScaffoldState>();
     _timerCubit = BlocProvider.of(context);
   }
+
+    // Carrega o nível atual do usuário
+  Future<void> _loadUserLevel() async {
+    try {
+      final level = await ProgressService().getCurrentUserLevel(widget.userId, widget.language);
+      _showSnackBar('Nível carregado: $level');  
+      setState(() {
+        _currentLevel = level ?? "A1"; 
+      });
+    } catch (e) {
+      _showSnackBar('Erro ao carregar nível atual: $e');
+    }
+  }
+
+  // Atualiza o nível atual do usuário
+  void refreshProgress() {
+    _loadUserLevel();
+  }
+
+  void updateProgress() {
+  setState(() {
+    _loadUserLevel(); // Atualiza o nível
+  });
+  }
+
+  void _showSnackBar(String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +105,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      backgroundColor: widget.isDarkMode ? const Color(0xFFC44A45) : const Color(0xFFC44A45),
+      backgroundColor:
+          widget.isDarkMode ? const Color(0xFFC44A45) : const Color(0xFFC44A45),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: Colors.white),
         onPressed: () {
@@ -158,84 +195,135 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget _buildPercentInfo() {
-    return BlocBuilder<TimerCubit, int>(
-      bloc: _timerCubit,
-      builder: (context, currentMinutes) {
-        const total = 10;
-
-        int formattedMinutes = currentMinutes >= total ? total : currentMinutes;
-        double percentage = formattedMinutes / total;
-
-        return GestureDetector(
-          onTap: () {},
-          child: Container(
-            constraints: const BoxConstraints(minHeight: 91.0),
-            decoration: BoxDecoration(
-              color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 6,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-              borderRadius: BorderRadius.circular(12),
+    return FutureBuilder<Map<String, dynamic>?>(
+      future: ProgressService().loadCustomStudyProgress(
+        widget.userId,
+        _currentLevel ?? "A1", // Nível padrão caso não encontrado
+        widget.language,
+        "testeNivelamento",
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              "Erro ao carregar progresso",
+              style: TextStyle(
+                color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
+              ),
             ),
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "DESEMPENHO ATUAL:",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
+          );
+        } else if (!snapshot.hasData || snapshot.data == null) {
+          return Center(
+            child: Text(
+              "Nenhum progresso encontrado",
+              style: TextStyle(
+                color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
+              ),
+            ),
+          );
+        } else {
+          // Dados do progresso carregados
+          final progressData = snapshot.data!;
+          int questionsAnswered = progressData['questionsAnswered'] ?? 0;
+          int totalScore = progressData['totalScore'] ?? 0;
+
+          // Percentual baseado em um total fixo ou calculado
+          int totalQuestions = progressData['totalQuestions'] ?? 10; // Obtido da API
+          double percentage = (questionsAnswered / totalQuestions).clamp(0.0, 1.0);
+              (questionsAnswered / totalQuestions).clamp(0.0, 1.0);
+
+          return GestureDetector(
+            onTap: () {},
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 91.0),
+              decoration: BoxDecoration(
+                color: widget.isDarkMode ? Colors.grey[800] : Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 6,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                CircularPercentIndicator(
-                  radius: 32,
-                  lineWidth: 2.0,
-                  percent: percentage,
-                  progressColor: widget.isDarkMode ? Colors.white : Colors.black,
-                  backgroundColor: Colors.transparent,
-                  center: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    margin: const EdgeInsets.all(2.0),
-                    decoration: BoxDecoration(
-                      color: widget.isDarkMode
-                          ? Colors.grey[700]
-                          : const Color(0xffd5a03e),
-                      shape: BoxShape.circle,
+                ],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "DESEMPENHO ATUAL:",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          widget.isDarkMode ? Colors.grey[300] : Colors.black,
                     ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      "${(percentage * 100).toInt()}%",
-                      style: TextStyle(
-                        fontSize: 15.0,
-                        fontWeight: FontWeight.bold,
-                        color: widget.isDarkMode ? Colors.grey[300] : Colors.white,
+                  ),
+                  const SizedBox(height: 8.0),
+                  CircularPercentIndicator(
+                    radius: 32,
+                    lineWidth: 2.0,
+                    percent: percentage,
+                    progressColor:
+                        widget.isDarkMode ? Colors.white : Colors.black,
+                    backgroundColor: Colors.transparent,
+                    center: Container(
+                      height: double.infinity,
+                      width: double.infinity,
+                      margin: const EdgeInsets.all(2.0),
+                      decoration: BoxDecoration(
+                        color: widget.isDarkMode
+                            ? Colors.grey[700]
+                            : const Color(0xffd5a03e),
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        "${(percentage * 100).toInt()}%",
+                        style: TextStyle(
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          color: widget.isDarkMode
+                              ? Colors.grey[300]
+                              : Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  "$currentMinutes minuto${currentMinutes == 1 ? '' : 's'}".toUpperCase(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.bold,
-                    color: widget.isDarkMode ? Colors.grey[300] : Colors.black,
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "$questionsAnswered/${totalQuestions} perguntas"
+                        .toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          widget.isDarkMode ? Colors.grey[300] : Colors.black,
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 8.0),
+                  Text(
+                    "Pontuação: $totalScore".toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                      color:
+                          widget.isDarkMode ? Colors.grey[300] : Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }
@@ -328,11 +416,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: widget.isDarkMode ? const Color(0xFFAF4B46) : const Color(0xFFAF4B46),
+              color: widget.isDarkMode
+                  ? const Color(0xFFAF4B46)
+                  : const Color(0xFFAF4B46),
             ),
           ),
           const SizedBox(height: 8),
-           Text.rich(
+          Text.rich(
             TextSpan(
               children: [
                 TextSpan(
