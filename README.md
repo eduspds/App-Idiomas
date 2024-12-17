@@ -85,9 +85,9 @@ A equipe de front-end foi dividida estrategicamente:
 
 Além disso, Levi e Eduardo colaboraram na construção deste relatório, reunindo informações detalhadas sobre as atividades da equipe e organizando o progresso do projeto de forma clara e objetiva.
 
-### Raynan e Iwin: Criação do Vídeo
+### Levi, Raynan e Iwin: Criação do Vídeo
 
-Ambos colaboraram na produção de um vídeo promocional para apresentar o app. Suas atividades incluíram:
+Colaboraram na produção de um vídeo promocional para apresentar o app. Suas atividades incluíram:
 - **Raynan**: Planejamento do roteiro, gravação das telas destacando as principais funcionalidades.
 - **Levi**: Edição e pós-produção.
 - **Iwin**: Narração e explicação das funcionalidades do sistema.
