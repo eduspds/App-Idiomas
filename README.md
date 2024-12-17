@@ -88,8 +88,9 @@ Além disso, Levi e Eduardo colaboraram na construção deste relatório, reunin
 ### Raynan e Iwin: Criação do Vídeo
 
 Ambos colaboraram na produção de um vídeo promocional para apresentar o app. Suas atividades incluíram:
-- **Raynan**: Planejamento do roteiro e narração, destacando as principais funcionalidades.
-- **Iwin**: Edição e pós-produção, adicionando efeitos visuais e transições que refletissem a identidade do app.
+- **Raynan**: Planejamento do roteiro, gravação das telas destacando as principais funcionalidades.
+- **Levi**: Edição e pós-produção.
+- **Iwin**: Narração e explicação das funcionalidades do sistema.
 
 ### Raynan: Implementação do Login
 
